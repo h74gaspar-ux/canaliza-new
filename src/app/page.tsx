@@ -42,6 +42,8 @@ import { useState } from 'react'
 // Types
 import { DiagnosisResult } from '@/lib/diagnosisData'
 import { diagnosisTrees } from '@/lib/diagnosisData'
+import { useQuiz } from '@/context/QuizContext'
+import { Header } from '@/components/nav/Header'
 
 interface Category {
   id: string
@@ -54,14 +56,17 @@ interface Category {
 
 
 export default function Home() {
-  const [quizState, setQuizState] = useState<'start' | 'housing' | 'area' | 'category' | 'problem' | 'diagnosis' | 'result'>('start')
-  const [selectedHousing, setSelectedHousing] = useState<'apartamento' | 'vivenda' | null>(null)
-  const [selectedArea, setSelectedArea] = useState<'cozinha' | 'casa-de-banho' | null>(null)
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const [selectedProblemKey, setSelectedProblemKey] = useState<string | null>(null)
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-  const [answers, setAnswers] = useState<string[]>([])
-  const [diagnosisResult, setDiagnosisResult] = useState<DiagnosisResult | null>(null)
+  const {
+    quizState, setQuizState,
+    selectedHousing, setSelectedHousing,
+    selectedArea, setSelectedArea,
+    selectedCategory, setSelectedCategory,
+    selectedProblemKey, setSelectedProblemKey,
+    currentQuestionIndex, setCurrentQuestionIndex,
+    answers, setAnswers,
+    diagnosisResult, setDiagnosisResult,
+    resetQuiz
+  } = useQuiz()
 
   // Housing Types
   const housingTypes = [
@@ -272,11 +277,7 @@ export default function Home() {
     else setQuizState('start')
   }
 
-  // Reset
-  const resetQuiz = () => {
-    setQuizState('start'); setSelectedHousing(null); setSelectedArea(null); setSelectedCategory(null); setSelectedProblemKey(null)
-    setCurrentQuestionIndex(0); setAnswers([]); setDiagnosisResult(null)
-  }
+  // Reset (inherited from context)
 
   // Start new
   const startNewDiagnosis = () => {
@@ -320,57 +321,10 @@ export default function Home() {
     }
   }
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50/50 text-slate-800 overflow-x-hidden relative">
-      {/* Premium Glassmorphism Background Orbs */}
-      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-500/20 blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-cyan-400/20 blur-[120px]" />
-        <div className="absolute top-[30%] left-[50%] w-[40vw] h-[40vw] rounded-full bg-indigo-500/10 blur-[100px]" />
-      </div>
+    <div className="min-h-screen flex flex-col bg-transparent text-slate-800 overflow-x-hidden relative">
+      {/* Premium Glassmorphism Background Orbs Removed (now in layout.tsx) */}
 
-      {/* Header */}
-      <motion.header 
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        className="border-b border-white/20 bg-white/30 backdrop-blur-xl sticky top-0 z-50"
-      >
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <motion.div 
-            className="flex items-center gap-3 cursor-pointer" 
-            whileHover={{ scale: 1.02 }}
-            onClick={resetQuiz}
-          >
-            <div className="relative">
-              <div className="absolute inset-0 bg-cyan-400/20 rounded-full blur-xl animate-pulse" />
-              <Image 
-                src="/logo-abstract.png" 
-                alt="CanalizaDIY Logo" 
-                width={50} 
-                height={50}
-                className="relative z-10"
-              />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-blue-700 via-cyan-600 to-blue-500 bg-clip-text text-transparent">
-                CanalizaDIY
-              </h1>
-              <p className="text-xs text-blue-600 font-medium">Diagnóstico Interativo</p>
-            </div>
-          </motion.div>
-          
-          <nav className="hidden md:flex items-center gap-6">
-            <span className="text-blue-700 font-bold text-base">Diagnóstico</span>
-            <Link href="/catalogo" className="text-slate-800 hover:text-blue-700 transition-colors text-base font-semibold">Catálogo</Link>
-            <Link href="/precos" className="text-slate-800 hover:text-blue-700 transition-colors text-base font-semibold">Preços</Link>
-            <Link href="/login">
-              <Button className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:from-blue-500 hover:to-cyan-400 shadow-[0_10px_20px_rgba(59,130,246,0.3)] font-bold text-base px-6">
-                <User className="w-5 h-5 mr-2" />
-                Entrar
-              </Button>
-            </Link>
-          </nav>
-        </div>
-      </motion.header>
+      <Header />
 
       {/* Main Content */}
       <main className="flex-1 relative z-10">
@@ -479,16 +433,7 @@ export default function Home() {
                           <Play className="w-6 h-6 mr-3" />
                           Iniciar Diagnóstico
                         </Button>
-                        <Link href="/catalogo" className="block w-full max-w-md">
-                          <Button
-                            variant="outline"
-                            size="lg"
-                            className="w-full btn-premium-strike bg-gradient-to-r from-amber-400 to-orange-400 border-none text-slate-900 hover:from-amber-300 hover:to-orange-300 font-black text-lg px-8 py-8 rounded-[24px] transition-all duration-300 shadow-xl shadow-orange-500/20"
-                          >
-                            <ShoppingCart className="w-5 h-5 mr-2" />
-                            Explorar Catálogo de Soluções
-                          </Button>
-                        </Link>
+
                       </motion.div>
 
                       {/* High-Fidelity Statistics Bar */}
