@@ -10,8 +10,8 @@ interface QuizContextType {
   setQuizState: (state: QuizState) => void
   selectedHousing: 'apartamento' | 'vivenda' | null
   setSelectedHousing: (housing: 'apartamento' | 'vivenda' | null) => void
-  selectedArea: 'cozinha' | 'casa-de-banho' | null
-  setSelectedArea: (area: 'cozinha' | 'casa-de-banho' | null) => void
+  selectedArea: string | null
+  setSelectedArea: (area: string | null) => void
   selectedCategory: string | null
   setSelectedCategory: (category: string | null) => void
   selectedProblemKey: string | null
@@ -30,7 +30,7 @@ const QuizContext = createContext<QuizContextType | undefined>(undefined)
 export function QuizProvider({ children }: { children: ReactNode }) {
   const [quizState, setQuizState] = useState<QuizState>('start')
   const [selectedHousing, setSelectedHousing] = useState<'apartamento' | 'vivenda' | null>(null)
-  const [selectedArea, setSelectedArea] = useState<'cozinha' | 'casa-de-banho' | null>(null)
+  const [selectedArea, setSelectedArea] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedProblemKey, setSelectedProblemKey] = useState<string | null>(null)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)

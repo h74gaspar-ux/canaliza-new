@@ -26,7 +26,7 @@ const pricingPlans = [
   {
     id: 'individual',
     name: 'Solução Individual',
-    price: 4.99,
+    price: 5.00,
     period: 'único',
     description: 'Acesso a uma solução completa',
     features: [
@@ -45,7 +45,7 @@ const pricingPlans = [
   {
     id: 'premium-monthly',
     name: 'Premium Mensal',
-    price: 19.99,
+    price: 5.00,
     period: '/mês',
     description: 'Acesso ilimitado a todas as soluções',
     isPopular: true,
@@ -61,7 +61,7 @@ const pricingPlans = [
   {
     id: 'premium-yearly',
     name: 'Premium Anual',
-    price: 49.99,
+    price: 5.00,
     period: '/ano',
     description: 'Melhor valor - Poupa mais de 75%',
     badge: 'Melhor Valor',

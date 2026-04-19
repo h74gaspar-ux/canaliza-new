@@ -50,33 +50,40 @@ interface Category {
 
 // Categories
 const categories: Category[] = [
-  { id: 'all', name: 'Todos', count: 17 },
+  { id: 'all', name: 'Todos', count: 23 },
   { id: 'sanita', name: 'Sanita', count: 5 },
   { id: 'lavatorio', name: 'Lavatório', count: 4 },
   { id: 'cozinha', name: 'Cozinha', count: 4 },
   { id: 'chuveiro', name: 'Chuveiro', count: 3 },
   { id: 'banheira', name: 'Banheira', count: 1 },
+  { id: 'canaliza-diy', name: 'Canaliza Geral', count: 6 },
 ]
 
 // All Problems
 const allProblems: Problem[] = [
-  { id: 1, slug: 'sanita-agua-correndo', title: 'Água sempre a correr na sanita', description: 'A sanita está a deixar passar água continuamente.', symptom: 'Água correndo constantemente', category: 'Sanita', categoryId: 'sanita', difficulty: 'simples', priority: 'importante', time: '30-60 min', cause: 'Boia de enchimento desajustada ou válvula de descarga defeituosa', views: '2.5k', price: 4.99 },
-  { id: 2, slug: 'sanita-entupida', title: 'Sanita entupida', description: 'A sanita não descarrega corretamente.', symptom: 'Não descarrega corretamente', category: 'Sanita', categoryId: 'sanita', difficulty: 'medio', priority: 'importante', time: '30-60 min', cause: 'Obstrução no sifão ou na tubagem de saída', views: '2.1k', price: 4.99 },
-  { id: 3, slug: 'mau-cheiro-lava-louca', title: 'Mau cheiro no lava-louça', description: 'Odor desagradável na cozinha.', symptom: 'Odor desagradável', category: 'Cozinha', categoryId: 'cozinha', difficulty: 'simples', priority: 'quando-possivel', time: '30 min', cause: 'Resíduos acumulados no sifão ou tubagem', views: '1.8k', price: 4.99 },
-  { id: 4, slug: 'agua-acumula-chuveiro', title: 'Água acumula no chuveiro', description: 'A água não desce pelo ralo.', symptom: 'Não escoa bem', category: 'Chuveiro', categoryId: 'chuveiro', difficulty: 'simples', priority: 'importante', time: '30 min', cause: 'Entupimento no ralo ou tubagem', views: '1.5k', price: 4.99 },
-  { id: 5, slug: 'torneira-pingar', title: 'Torneira a pingar', description: 'A torneira não fecha completamente.', symptom: 'Torneira não fecha', category: 'Lavatório', categoryId: 'lavatorio', difficulty: 'medio', priority: 'importante', time: '30-60 min', cause: 'Vedante ou cartucho da torneira desgastado', views: '1.3k', price: 4.99 },
-  { id: 6, slug: 'lavatorio-entupido', title: 'Água não escoa no lavatório', description: 'A água acumula no lavatório.', symptom: 'Água não escoa', category: 'Lavatório', categoryId: 'lavatorio', difficulty: 'simples', priority: 'importante', time: '30 min', cause: 'Entupimento no sifão ou tubagem', views: '1.1k', price: 4.99 },
-  { id: 7, slug: 'lava-louca-entupido', title: 'Lava-louça entupido', description: 'A água não desce no lava-louça.', symptom: 'Água não desce', category: 'Cozinha', categoryId: 'cozinha', difficulty: 'medio', priority: 'importante', time: '1 hora', cause: 'Acumulação de gordura ou resíduos no sifão', views: '980', price: 4.99 },
-  { id: 8, slug: 'maquina-agua-sobe', title: 'Máquina de lavar faz água subir', description: 'Água sobe para o lava-louça.', symptom: 'Água sobe do ralo', category: 'Cozinha', categoryId: 'cozinha', difficulty: 'medio', priority: 'urgente', time: '1-2 horas', cause: 'Entupimento parcial na tubagem partilhada', views: '850', price: 4.99 },
-  { id: 9, slug: 'vazamento-base-sanita', title: 'Água a sair pela base da sanita', description: 'Vazamento visível na base.', symptom: 'Água no chão', category: 'Sanita', categoryId: 'sanita', difficulty: 'medio', priority: 'urgente', time: '1-2 horas', cause: 'Vedante da base danificado ou fissura na sanita', views: '720', price: 4.99 },
-  { id: 10, slug: 'mau-cheiro-ralo-chuveiro', title: 'Mau cheiro no ralo do chuveiro', description: 'Odor desagradável no ralo.', symptom: 'Odor desagradável', category: 'Chuveiro', categoryId: 'chuveiro', difficulty: 'simples', priority: 'quando-possivel', time: '15 min', cause: 'Cabelos e resíduos acumulados no ralo', views: '650', price: 4.99 },
-  { id: 11, slug: 'vazamento-chuveiro', title: 'Vazamento no chuveiro', description: 'Água a vazar através do teto ou parede.', symptom: 'Água na parede/teto', category: 'Chuveiro', categoryId: 'chuveiro', difficulty: 'medio', priority: 'urgente', time: '1-2 horas', cause: 'Vedação defeituosa ou tubagem danificada', views: '580', price: 4.99 },
-  { id: 12, slug: 'sanita-barulho', title: 'Sanita a fazer barulho', description: 'Barulhos estranhos após a descarga.', symptom: 'Barulhos estranhos', category: 'Sanita', categoryId: 'sanita', difficulty: 'medio', priority: 'quando-possivel', time: '1-2 horas', cause: 'Válvula de enchimento com problema ou tubagem com vibração', views: '450', price: 4.99 },
-  { id: 13, slug: 'vazamento-lavatorio', title: 'Vazamento debaixo do lavatório', description: 'Água a aparecer debaixo.', symptom: 'Água no chão', category: 'Lavatório', categoryId: 'lavatorio', difficulty: 'medio', priority: 'importante', time: '1 hora', cause: 'Ligação solta, sifão rachado ou vedante danificado', views: '420', price: 4.99 },
-  { id: 14, slug: 'mau-cheiro-sanita', title: 'Mau cheiro na sanita', description: 'Odor desagradável.', symptom: 'Odor desagradável', category: 'Sanita', categoryId: 'sanita', difficulty: 'simples', priority: 'quando-possivel', time: '15-30 min', cause: 'Sifão seco ou vedação defeituosa', views: '380', price: 4.99 },
-  { id: 15, slug: 'banheira-entupida', title: 'Banheira escoa muito devagar', description: 'A água demora a descer.', symptom: 'Escoa muito devagar', category: 'Banheira', categoryId: 'banheira', difficulty: 'medio', priority: 'importante', time: '1 hora', cause: 'Entupimento no ralo ou sifão', views: '280', price: 4.99 },
-  { id: 16, slug: 'torneira-cozinha-pingar', title: 'Torneira da cozinha a pingar', description: 'A torneira não fecha bem.', symptom: 'Torneira não fecha', category: 'Cozinha', categoryId: 'cozinha', difficulty: 'medio', priority: 'importante', time: '30-60 min', cause: 'Vedante ou cartucho desgastado', views: '140', price: 4.99 },
-  { id: 17, slug: 'mau-cheiro-lavatorio', title: 'Mau cheiro no lavatório', description: 'Odor desagradável vindo do lavatório.', symptom: 'Odor desagradável', category: 'Lavatório', categoryId: 'lavatorio', difficulty: 'simples', priority: 'quando-possivel', time: '15 min', cause: 'Sifão sujo ou seco, ou problemas de ventilação', views: '120', price: 4.99 },
+  { id: 1, slug: 'sanita-agua-correndo', title: 'Água sempre a correr na sanita', description: 'A sanita está a deixar passar água continuamente.', symptom: 'Água correndo constantemente', category: 'Sanita', categoryId: 'sanita', difficulty: 'simples', priority: 'importante', time: '30-60 min', cause: 'Boia de enchimento desajustada ou válvula de descarga defeituosa', views: '2.5k', price: 5.00 },
+  { id: 2, slug: 'sanita-entupida', title: 'Sanita entupida', description: 'A sanita não descarrega corretamente.', symptom: 'Não descarrega corretamente', category: 'Sanita', categoryId: 'sanita', difficulty: 'medio', priority: 'importante', time: '30-60 min', cause: 'Obstrução no sifão ou na tubagem de saída', views: '2.1k', price: 5.00 },
+  { id: 3, slug: 'mau-cheiro-lava-louca', title: 'Mau cheiro no lava-louça', description: 'Odor desagradável na cozinha.', symptom: 'Odor desagradável', category: 'Cozinha', categoryId: 'cozinha', difficulty: 'simples', priority: 'quando-possivel', time: '30 a 60 min', cause: 'Resíduos acumulados no sifão ou tubagem', views: '1.8k', price: 5.00 },
+  { id: 4, slug: 'agua-acumula-chuveiro', title: 'Água acumula no chuveiro', description: 'A água não desce pelo ralo.', symptom: 'Não escoa bem', category: 'Chuveiro', categoryId: 'chuveiro', difficulty: 'simples', priority: 'importante', time: '30 a 60 min', cause: 'Entupimento no ralo ou tubagem', views: '1.5k', price: 5.00 },
+  { id: 5, slug: 'torneira-pingar', title: 'Torneira a pingar', description: 'A torneira não fecha completamente.', symptom: 'Torneira não fecha', category: 'Lavatório', categoryId: 'lavatorio', difficulty: 'medio', priority: 'importante', time: '30-60 min', cause: 'Vedante ou cartucho da torneira desgastado', views: '1.3k', price: 5.00 },
+  { id: 6, slug: 'lavatorio-entupido', title: 'Água não escoa no lavatório', description: 'A água acumula no lavatório.', symptom: 'Água não escoa', category: 'Lavatório', categoryId: 'lavatorio', difficulty: 'simples', priority: 'importante', time: '30 a 60 min', cause: 'Entupimento no sifão ou tubagem', views: '1.1k', price: 5.00 },
+  { id: 7, slug: 'lava-louca-entupido', title: 'Lava-louça entupido', description: 'A água não desce no lava-louça.', symptom: 'Água não desce', category: 'Cozinha', categoryId: 'cozinha', difficulty: 'medio', priority: 'importante', time: '1 hora', cause: 'Acumulação de gordura ou resíduos no sifão', views: '980', price: 5.00 },
+  { id: 8, slug: 'maquina-agua-sobe', title: 'Máquina de lavar faz água subir', description: 'Água sobe para o lava-louça.', symptom: 'Água sobe do ralo', category: 'Cozinha', categoryId: 'cozinha', difficulty: 'medio', priority: 'urgente', time: '1-2 horas', cause: 'Entupimento parcial na tubagem partilhada', views: '850', price: 5.00 },
+  { id: 9, slug: 'vazamento-base-sanita', title: 'Água a sair pela base da sanita', description: 'Vazamento visível na base.', symptom: 'Água no chão', category: 'Sanita', categoryId: 'sanita', difficulty: 'medio', priority: 'urgente', time: '1-2 horas', cause: 'Vedante da base danificado ou fissura na sanita', views: '720', price: 5.00 },
+  { id: 10, slug: 'mau-cheiro-ralo-chuveiro', title: 'Mau cheiro no ralo do chuveiro', description: 'Odor desagradável no ralo.', symptom: 'Odor desagradável', category: 'Chuveiro', categoryId: 'chuveiro', difficulty: 'simples', priority: 'quando-possivel', time: '15 min', cause: 'Cabelos e resíduos acumulados no ralo', views: '650', price: 5.00 },
+  { id: 11, slug: 'vazamento-chuveiro', title: 'Vazamento no chuveiro', description: 'Água a vazar através do teto ou parede.', symptom: 'Água na parede/teto', category: 'Chuveiro', categoryId: 'chuveiro', difficulty: 'medio', priority: 'urgente', time: '1-2 horas', cause: 'Vedação defeituosa ou tubagem danificada', views: '580', price: 5.00 },
+  { id: 12, slug: 'sanita-barulho', title: 'Sanita a fazer barulho', description: 'Barulhos estranhos após a descarga.', symptom: 'Barulhos estranhos', category: 'Sanita', categoryId: 'sanita', difficulty: 'medio', priority: 'quando-possivel', time: '1-2 horas', cause: 'Válvula de enchimento com problema ou tubagem com vibração', views: '450', price: 5.00 },
+  { id: 13, slug: 'vazamento-lavatorio', title: 'Vazamento debaixo do lavatório', description: 'Água a aparecer debaixo.', symptom: 'Água no chão', category: 'Lavatório', categoryId: 'lavatorio', difficulty: 'medio', priority: 'importante', time: '1 hora', cause: 'Ligação solta, sifão rachado ou vedante danificado', views: '420', price: 5.00 },
+  { id: 14, slug: 'mau-cheiro-sanita', title: 'Mau cheiro na sanita', description: 'Odor desagradável.', symptom: 'Odor desagradável', category: 'Sanita', categoryId: 'sanita', difficulty: 'simples', priority: 'quando-possivel', time: '15-30 a 60 min', cause: 'Sifão seco ou vedação defeituosa', views: '380', price: 5.00 },
+  { id: 15, slug: 'banheira-entupida', title: 'Banheira escoa muito devagar', description: 'A água demora a descer.', symptom: 'Escoa muito devagar', category: 'Banheira', categoryId: 'banheira', difficulty: 'medio', priority: 'importante', time: '1 hora', cause: 'Entupimento no ralo ou sifão', views: '280', price: 5.00 },
+  { id: 16, slug: 'torneira-cozinha-pingar', title: 'Torneira da cozinha a pingar', description: 'A torneira não fecha bem.', symptom: 'Torneira não fecha', category: 'Cozinha', categoryId: 'cozinha', difficulty: 'medio', priority: 'importante', time: '30-60 min', cause: 'Vedante ou cartucho desgastado', views: '140', price: 5.00 },
+  { id: 17, slug: 'mau-cheiro-lavatorio', title: 'Mau cheiro no lavatório', description: 'Odor desagradável vindo do lavatório.', symptom: 'Odor desagradável', category: 'Lavatório', categoryId: 'lavatorio', difficulty: 'simples', priority: 'quando-possivel', time: '15 min', cause: 'Sifão sujo ou seco, ou problemas de ventilação', views: '120', price: 5.00 },
+  { id: 18, slug: 'baixa-pressao', title: 'Baixa Pressão de Água', description: 'A água está a sair com uma pressão invulgarmente baixa.', symptom: 'Água sai sem força', category: 'Canaliza Geral', categoryId: 'canaliza-diy', difficulty: 'simples', priority: 'importante', time: '1-2 horas', cause: 'Filtros obstruídos ou vazamentos ocultos', views: '3.1k', price: 5.00 },
+  { id: 19, slug: 'fuga-oculta', title: 'Possível Fuga de Água Oculta', description: 'Suspeita de fugas não visíveis, com aumento da conta.', symptom: 'Conta de água alta', category: 'Canaliza Geral', categoryId: 'canaliza-diy', difficulty: 'avancado', priority: 'urgente', time: 'Várias horas', cause: 'Canos furados no interior das paredes ou solo', views: '2.8k', price: 5.00 },
+  { id: 20, slug: 'ruido-canos', title: 'Ruídos Estranhos nos Canos', description: 'Sons de assobios ou batidas quando se usa água.', symptom: 'Assúbios ou batidas', category: 'Canaliza Geral', categoryId: 'canaliza-diy', difficulty: 'medio', priority: 'quando-possivel', time: '1 hora', cause: 'Golpe de aríete ou pressão alta', views: '1.2k', price: 5.00 },
+  { id: 21, slug: 'esquentador-frio', title: 'Água Fria no Esquentador', description: 'O esquentador liga mas a água não aquece.', symptom: 'Esquentador não aquece', category: 'Canaliza Geral', categoryId: 'canaliza-diy', difficulty: 'medio', priority: 'importante', time: '1-2 horas', cause: 'Falta de gás, pilhas fracas ou de membrana', views: '4.5k', price: 5.00 },
+  { id: 22, slug: 'termoacumulador-frio', title: 'Problemas no Termoacumulador', description: 'Falta de água quente ou ruídos vindos do cilindro elétrico.', symptom: 'Cilindro elétrico não aquece', category: 'Canaliza Geral', categoryId: 'canaliza-diy', difficulty: 'medio', priority: 'importante', time: '2-3 horas', cause: 'Acumulação de calcário ou termóstato', views: '3.9k', price: 5.00 },
+  { id: 23, slug: 'falha-bombas', title: 'Falha em Bombas de Esgoto', description: 'Inundação ou bomba de porão (Sump Pump) que não liga.', symptom: 'Água a acumular', category: 'Canaliza Geral', categoryId: 'canaliza-diy', difficulty: 'avancado', priority: 'urgente', time: 'Várias horas', cause: 'Bomba bloqueada ou falha elétrica', views: '800', price: 5.00 },
 ]
 
 export default function CatalogoPage() {
@@ -118,7 +125,7 @@ export default function CatalogoPage() {
 
   const getDifficultyLabel = (difficulty: string) => {
     switch (difficulty) {
-      case 'simples': return 'Fácil'
+      case 'simples': return 'Medio'
       case 'medio': return 'Médio'
       case 'avancado': return 'Avançado'
       default: return difficulty
@@ -132,6 +139,7 @@ export default function CatalogoPage() {
       'cozinha': 'text-orange-400',
       'chuveiro': 'text-teal-400',
       'banheira': 'text-purple-400',
+      'canaliza-diy': 'text-amber-500',
     }
     return colors[categoryId] || 'text-white/60'
   }
@@ -285,7 +293,7 @@ export default function CatalogoPage() {
                 <Crown className="w-16 h-16 text-blue-600 mx-auto mb-6" />
                 <h3 className="text-3xl font-bold text-slate-900 mb-4">Acesso Ilimitado</h3>
                 <p className="text-slate-600 mb-8 text-lg">
-                  Assine Premium e tenha acesso a todas as soluções por apenas €19.99/mês
+                  Assine Premium e tenha acesso a todas as soluções por apenas €20.00/mês
                 </p>
                 <Link href="/precos">
                   <Button className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:from-blue-500 hover:to-cyan-400 font-bold py-6 px-10 rounded-2xl shadow-lg shadow-blue-500/20 text-lg">
