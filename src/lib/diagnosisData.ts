@@ -1,10 +1,12 @@
-export interface DiagnosisQuestion {
+export interface QuizOption {
+  id: string
+  label: string
+}
+
+export interface Question {
   id: string
   question: string
-  options: {
-    id: string
-    label: string
-  }[]
+  options: QuizOption[]
 }
 
 export interface DiagnosisResult {
@@ -24,115 +26,212 @@ export interface DiagnosisTree {
   problemId: number
   problemTitle: string
   symptom: string
-  questions: DiagnosisQuestion[]
+  questions: Question[]
   paths: Record<string, string>
   results: Record<string, DiagnosisResult>
 }
 
 export const diagnosisTrees: Record<string, DiagnosisTree> = {
-  // CASA DE BANHO
+  // SANITA
   'sanita-agua-correndo': {
     problemId: 1,
-    problemTitle: 'Água a Correr na Sanita',
-    symptom: 'Água correndo constantemente pela bacia da sanita.',
+    problemTitle: 'Água Corre Dentro da Sanita',
+    symptom: 'Água está a correr dentro da sanita.',
     questions: [
       {
         id: 'q1',
-        question: 'Onde parece estar a fuga de água na sanita?',
+        question: 'A água está a correr sempre, ou aparece algum tempo depois?',
         options: [
-          { id: 'interior', label: 'Dentro da bacia (fio de água constante)' },
-          { id: 'exterior', label: 'Fora da sanita (chão molhado)' }
+          { id: 'sempre', label: 'Sempre a correr' },
+          { id: 'depois-descarga', label: 'Depois da descarga aparece água algum tempo depois' }
         ]
       },
       {
         id: 'q2',
-        question: 'Consegue parar a água se levantar a boia com a mão?',
+        question: 'Como é o sistema de descarga?',
         options: [
-          { id: 'sim', label: 'Sim, a água para' },
-          { id: 'nao', label: 'Não, continua a correr' }
+          { id: 'botao-parede', label: 'Botão na parede' },
+          { id: 'caixa-plastico', label: 'Caixa de plástico na parede' },
+          { id: 'caixa-ceramica', label: 'Caixa cerâmica por cima' }
         ]
       }
     ],
     paths: {
-      'interior': 'q2',
-      'exterior': 'result-vazamento-base'
+      'sempre': 'q2',
+      'depois-descarga': 'q2'
     },
     results: {
-      'sim': { id: 10, title: 'Boia Desajustada', description: 'A boia está a subir demais, fazendo a água sair pelo ladrão.', cause: 'Nível de água configurado muito alto.', difficulty: 'simples', time: '10 min', priority: 'importante', solution: 'Ajuste o parafuso da boia para que ela feche a água mais cedo.', isDIY: true, price: 5.00 },
-      'nao': { id: 11, title: 'Válvula de Descarga Pasmada', description: 'O vedante de borracha no fundo do mecanismo está gasto ou sujo.', cause: 'Calcário ou desgaste natural da borracha.', difficulty: 'medio', time: '30 min', priority: 'urgente', solution: 'Substitua o vedante de borracha ou limpe o calcário da base.', isDIY: true, price: 5.00 },
-      'result-vazamento-base': { id: 12, title: 'Fuga na Base ou Ligações', description: 'A água está a sair pelas juntas ou parafusos de fixação.', cause: 'Vedantes dos parafusos ou anel de cera danificados.', difficulty: 'medio', time: '1h', priority: 'urgente', solution: 'Verifique os parafusos do tanque ou substitua o fole de ligação ao esgoto.', isDIY: true, price: 5.00 }
+      'sempre,botao-parede': { id: 1, title: 'Falha em Mecanismo Embutido', description: 'Por ser um sistema dentro da parede (comum em loiças suspensas), não recomendamos tentar resolver sozinho sem experiência.', cause: 'Válvula de descarga da cisterna embutida desgastada', difficulty: 'avancado', time: '1-2 horas', priority: 'importante', solution: 'NÃO RECOMENDADO DIY. Contacte um canalizador.', isDIY: false, price: 5.00 },
+      'depois-descarga,botao-parede': { id: 2, title: 'Válvula de Enchimento (Suspensas/Embutidas)', description: 'Por ser um autoclismo interior, a sua abertura é difícil. Recomendamos totalmente o apoio de profissionais.', cause: 'Válvula de enchimento desgastada na parede', difficulty: 'avancado', time: '1-2 horas', priority: 'importante', solution: 'NÃO RECOMENDADO DIY. Contacte um canalizador.', isDIY: false, price: 5.00 },
+      'sempre,caixa-plastico': { id: 3, title: 'Válvula de Descarga Defeituosa', description: 'A válvula de descarga não está a fechar corretamente.', cause: 'Válvula de descarga desgastada ou com problemas de vedação', difficulty: 'medio', time: '30-60 min', priority: 'importante', solution: 'Substituir válvula de descarga', isDIY: true, price: 5.00 },
+      'depois-descarga,caixa-plastico': { id: 4, title: 'Válvula de Enchimento Defeituosa', description: 'A válvula de enchimento não para de encher.', cause: 'Válvula de enchimento desgastada ou boia desajustada', difficulty: 'medio', time: '30-60 min', priority: 'importante', solution: 'Ajustar ou substituir válvula de enchimento', isDIY: true, price: 5.00 },
+      'sempre,caixa-ceramica': { id: 5, title: 'Válvula de Descarga Defeituosa', description: 'A válvula de descarga não está a fechar corretamente.', cause: 'Válvula de descarga desgastada ou com problemas de vedação', difficulty: 'simples', time: '30 min', priority: 'importante', solution: 'Substituir válvula de descarga', isDIY: true, price: 5.00 },
+      'depois-descarga,caixa-ceramica': { id: 6, title: 'Válvula de Enchimento Defeituosa', description: 'A válvula de enchimento não para de encher.', cause: 'Válvula de enchimento desgastada ou boia desajustada', difficulty: 'simples', time: '30 min', priority: 'importante', solution: 'Ajustar ou substituir válvula de enchimento', isDIY: true, price: 5.00 }
     }
   },
 
   'nao-faz-descarga': {
     problemId: 2,
-    problemTitle: 'Não faz descarga ou descarga fraca',
-    symptom: 'Ao carregar no botão, a água não sai ou sai com pouca força.',
+    problemTitle: 'Não Faz Descarga ou Descarga Fraca',
+    symptom: 'Apertas o botão ou manípulo de descarga, mas não acontece nada, ou a água desce fraca/insuficiente.',
     questions: [
       {
         id: 'q1',
-        question: 'O botão oferece resistência quando pressionado?',
+        question: 'Tira a tampa da cisterna/autoclismo. O tanque está cheio de água, vazio, ou quase vazio?',
         options: [
-          { id: 'solto', label: 'Não, o botão parece solto/partido' },
-          { id: 'normal', label: 'Sim, mas a água sai devagar' }
+          { id: 'tanque-cheio', label: 'Tanque CHEIO de água' },
+          { id: 'tanque-vazio', label: 'Tanque VAZIO ou quase vazio' }
+        ]
+      },
+      {
+        id: 'q2a',
+        question: 'Como é o mecanismo de descarga?',
+        options: [
+          { id: 'botao-duplo', label: 'Botão duplo na tampa' },
+          { id: 'alavanca-lateral', label: 'Alavanca/manípulo lateral' }
+        ]
+      },
+      {
+        id: 'q2b',
+        question: 'Procura uma torneira de metal na parede, por trás ou ao lado da sanita. Está aberta ou fechada?',
+        options: [
+          { id: 'torneira-fechada', label: 'Torneira FECHADA' },
+          { id: 'torneira-aberta', label: 'Torneira ABERTA' }
+        ]
+      },
+      {
+        id: 'q3b',
+        question: 'Ouves algum som de água a tentar entrar no tanque?',
+        options: [
+          { id: 'silencio-total', label: 'Silêncio total' },
+          { id: 'som-agua', label: 'Som de água a correr' }
         ]
       }
     ],
     paths: {
-      'solto': 'result-mecanismo-partido',
-      'normal': 'result-descarga-entupida'
+      'tanque-cheio': 'q2a',
+      'tanque-vazio': 'q2b',
+      'torneira-fechada': 'result-torneira-fechada',
+      'torneira-aberta': 'q3b'
     },
     results: {
-      'result-mecanismo-partido': { id: 20, title: 'Botão ou Tirante Partido', description: 'A ligação física entre o botão e a válvula de descarga está interrompida.', cause: 'Desgaste do material plástico interno.', difficulty: 'simples', time: '15 min', priority: 'importante', solution: 'Substitua o conjunto do botão ou a haste de ligação.', isDIY: true, price: 5.00 },
-      'result-descarga-entupida': { id: 21, title: 'Acumulação de Sedimentos', description: 'Os furos de saída de água na bacia estão obstruídos.', cause: 'Calcário ou lodo acumulado nos bordos da sanita.', difficulty: 'medio', time: '45 min', priority: 'quando-possivel', solution: 'Limpe os orifícios de descarga com um arame fino e use um descalcificante forte no tanque.', isDIY: true, price: 5.00 }
+      'tanque-cheio,botao-duplo': { id: 10, title: 'Mecanismo Moderno com Falha', description: 'O mecanismo de descarga de botão duplo não funciona.', cause: 'Mecanismo com falha no botão', difficulty: 'medio', time: '30-60 min', priority: 'importante', solution: 'Substituir mecanismo de descarga', isDIY: true, price: 5.00 },
+      'tanque-cheio,alavanca-lateral': { id: 11, title: 'Mecanismo Tradicional com Falha', description: 'A alavanca soltou-se internamente.', cause: 'Corrente solta ou alavanca partida', difficulty: 'simples', time: '20-40 min', priority: 'importante', solution: 'Voltar a prender ou mudar alavanca', isDIY: true, price: 5.00 },
+      'result-torneira-fechada': { id: 12, title: 'Entrada de Água Bloqueada', description: 'A torneira de segurança está fechada.', cause: 'Torneira fechada', difficulty: 'simples', time: '2 min', priority: 'importante', solution: 'Abrir a torneira', isDIY: true, price: 5.00 },
+      'tanque-vazio,torneira-aberta,silencio-total': { id: 13, title: 'Válvula Bloqueada', description: 'A válvula de enchimento não abre.', cause: 'Válvula avariada', difficulty: 'medio', time: '30-60 min', priority: 'importante', solution: 'Substituir válvula de enchimento', isDIY: true, price: 5.00 },
+      'tanque-vazio,torneira-aberta,som-agua': { id: 14, title: 'Válvula Entupida', description: 'Válvula está aberta mas fluxo é quase nulo.', cause: 'Válvula entupida com calcário', difficulty: 'medio', time: '30-45 min', priority: 'importante', solution: 'Limpar ou substituir válvula', isDIY: true, price: 5.00 }
     }
   },
 
   'sanita-entupida': {
     problemId: 3,
     problemTitle: 'Sanita Entupida',
-    symptom: 'A água sobe quase até ao bordo ou desce muito lentamente após a descarga.',
+    symptom: 'Ao fazer descarga, a água sobe na sanita em vez de ir embora.',
     questions: [
       {
         id: 'q1',
-        question: 'Caiu algum objeto sólido acidentalmente (rolo, brinquedo, toalhete)?',
+        question: 'Vives em apartamento ou moradia?',
         options: [
-          { id: 'sim', label: 'Sim, ou é provável' },
-          { id: 'nao', label: 'Não, parece ser uso normal' }
+          { id: 'apartamento', label: 'Apartamento' },
+          { id: 'vivenda', label: 'Vivenda' }
+        ]
+      },
+      {
+        id: 'q2',
+        question: 'O problema afeta só a sanita ou outros ralos também?',
+        options: [
+          { id: 'so-esta', label: 'Só a sanita' },
+          { id: 'varias', label: 'Vários ralos/sanitas' }
         ]
       }
     ],
     paths: {
-      'sim': 'result-obstrucao-solida',
-      'nao': 'result-entupimento-comum'
+      'apartamento': 'q2',
+      'vivenda': 'q2'
     },
     results: {
-      'result-obstrucao-solida': { id: 30, title: 'Obstrução Física Rígida', description: 'Um objeto está preso na curva do sifão da sanita.', cause: 'Descarte indevido de objetos não solúveis.', difficulty: 'medio', time: '1h', priority: 'urgente', solution: 'Tente usar um desentupidor de ventosa ou uma mola de desentupimento manual. Não use químicos.', isDIY: true, price: 5.00 },
-      'result-entupimento-comum': { id: 31, title: 'Acumulação de Papel ou Resíduos', description: 'Excesso de papel ou resíduos orgânicos bloquearam a passagem.', cause: 'Falta de fluxo de água suficiente ou excesso de papel.', difficulty: 'simples', time: '20 min', priority: 'urgente', solution: 'Use o método da água quente com detergente da loiça ou um desentupidor de pressão.', isDIY: true, price: 5.00 }
+      'apartamento,so-esta': { id: 20, title: 'Entupimento Local', description: 'Apenas a sanita entupida.', cause: 'Excesso de papel ou toalhitas', difficulty: 'medio', time: '30-60 min', priority: 'importante', solution: 'Usar desentupidor ou sonda caseira', isDIY: true, price: 5.00 },
+      'apartamento,varias': { id: 21, title: 'Coluna do Prédio', description: 'Problema na coluna comum do prédio.', cause: 'Coluna comum entupida', difficulty: 'avancado', time: 'Condomínio', priority: 'urgente', solution: 'Contactar condomínio', isDIY: false, price: 5.00 },
+      'vivenda,so-esta': { id: 22, title: 'Entupimento na Sanita', description: 'Entupimento apenas num troço do esgoto.', cause: 'Obstrução local', difficulty: 'medio', time: '30-60 min', priority: 'importante', solution: 'Desentupir sanita ou caixa sifónica', isDIY: true, price: 5.00 },
+      'vivenda,varias': { id: 23, title: 'Fossa/Esgoto Principal', description: 'Rede principal entupida.', cause: 'Esgoto principal', difficulty: 'avancado', time: '1-2 horas', priority: 'urgente', solution: 'Chamar canalizador com jato de água', isDIY: false, price: 5.00 }
     }
   },
 
-  'sanita-mau-cheiro': {
+  'sanita-vazamento': {
     problemId: 4,
-    problemTitle: 'Mau Cheiro na Sanita',
-    symptom: 'Odor desagradável vindo da zona da sanita, mesmo limpa.',
+    problemTitle: 'Vazamento na Base da Sanita',
+    symptom: 'Água a sair pela ligação da sanita ou pela parede/chão.',
     questions: [
       {
-        id: 'q1',
-        question: 'A sanita esteve muito tempo sem ser usada (ex: férias)?',
+        id: 'q-tipo',
+        question: 'O tipo de sanita é fixa ao chão tradicional, ou é do tipo "Suspensa" (presa na parede, sem base no chão)?',
         options: [
-          { id: 'sim', label: 'Sim, vários dias/semanas' },
-          { id: 'nao', label: 'Não, é usada diariamente' }
+          { id: 'chao', label: 'Fixa ao chão (Tradicional)' },
+          { id: 'suspensa', label: 'Suspensa na parede' }
+        ]
+      },
+      {
+        id: 'q1',
+        question: 'Quando é que o vazamento ocorre?',
+        options: [
+          { id: 'apos-descarga', label: 'Apenas após a descarga' },
+          { id: 'constante', label: 'É constante' }
+        ]
+      },
+      {
+        id: 'q2',
+        question: 'A sanita parece instável ou abana?',
+        options: [
+          { id: 'abana', label: 'Sim, move-se ligeiramente' },
+          { id: 'firme', label: 'Não, está firme' }
         ]
       }
     ],
     paths: {
-      'sim': 'result-sifao-seco',
-      'nao': 'result-vedante-base'
+      'chao': 'q1',
+      'suspensa': 'result-fuga-suspensa',
+      'apos-descarga': 'q2',
+      'constante': 'q2'
     },
     results: {
-      'result-sifao-seco': { id: 40, title: 'Sifão Evaporado', description: 'A barreira de água que impede os gases de subir evaporou.', cause: 'Desuso prolongado.', difficulty: 'simples', time: '1 min', priority: 'quando-possivel', solution: 'Basta fazer uma descarga completa para repor o selo de água.', isDIY: true, price: 5.00 },
-      'result-vedante-base': { id: 41, title: 'Fuga de Gases no Fole/Anel', description: 'A ligação entre a sanita e o tubo de esgoto não está hermética.', cause: 'Vedante de borracha ressequido ou solto.', difficulty: 'medio', time: '1h', priority: 'importante', solution: 'Aplique silicone na base da sanita ou substitua o fole de ligação traseiro.', isDIY: true, price: 5.00 }
+      'result-fuga-suspensa': { id: 39, title: 'Fuga em Estrutura de Parede (Embutida)', description: 'Sistemas suspensos lidam com canos dentro da alvenaria e pernos fortes. Requer desmontagem complexa.', cause: 'Vedante do esgoto de parede ou tubo de descarga recolhidos da estrutura.', difficulty: 'avancado', time: 'Horas', priority: 'urgente', solution: 'NÃO RECOMENDADO DIY. Desligue a água e chame um canalizador. Mexer numa sanita suspensa pode rasgar pladur/azulejos ou partir os pernos de fixação!', isDIY: false, price: 5.00 },
+      'apos-descarga,abana': { id: 30, title: 'Parafusos Soltos', description: 'O movimento rompeu a vedação.', cause: 'Parafusos desapertados', difficulty: 'simples', time: '15 min', priority: 'importante', solution: 'Apertar parafusos da base', isDIY: true, price: 5.00 },
+      'apos-descarga,firme': { id: 31, title: 'Anel de Cera Danificado', description: 'O anel que liga ao esgoto estragou-se.', cause: 'Anel de cera velho/rompido', difficulty: 'medio', time: '1-2 horas', priority: 'urgente', solution: 'Substituir anel de vedação', isDIY: true, price: 5.00 },
+      'constante,abana': { id: 32, title: 'Vazamento Superior', description: 'Água vem do tanque escorrendo.', cause: 'Vazamento de acoplamento do tanque', difficulty: 'medio', time: '1-2 horas', priority: 'urgente', solution: 'Mudar vedantes do autoclismo', isDIY: true, price: 5.00 },
+      'constante,firme': { id: 33, title: 'Fissura na Louça', description: 'Possível fissura impercetível na sanita.', cause: 'Porcelana estalada', difficulty: 'avancado', time: '2-3 horas', priority: 'urgente', solution: 'Mudar a sanita inteira', isDIY: false, price: 5.00 }
+    }
+  },
+  'sanita-mau-cheiro': {
+    problemId: 5,
+    problemTitle: 'Mau Cheiro vindo da Sanita',
+    symptom: 'Odor de esgoto muito intenso na casa de banho.',
+    questions: [
+      {
+        id: 'q1',
+        question: 'A sanita é usada com regularidade?',
+        options: [
+          { id: 'raramente', label: 'Pouco usada (ex: WC de visitas)' },
+          { id: 'diariamente', label: 'Regularmente usada' }
+        ]
+      },
+      {
+        id: 'q2',
+        question: 'Borbulha ou faz ruído quando despeja água no chuveiro/lavatório?',
+        options: [
+          { id: 'sim', label: 'Sim' },
+          { id: 'nao', label: 'Não' }
+        ]
+      }
+    ],
+    paths: {
+      'raramente': 'q2',
+      'diariamente': 'q2'
+    },
+    results: {
+      'raramente,sim': { id: 40, title: 'Sifão Seco', description: 'Água evaporou, o esgoto está direto para casa.', cause: 'Sifão sem água', difficulty: 'simples', time: '1 min', priority: 'quando-possivel', solution: 'Fazer descargas em WCs sem uso', isDIY: true, price: 5.00 },
+      'raramente,nao': { id: 41, title: 'Sifão Seco', description: 'Água evaporou, o esgoto está direto.', cause: 'Sifão sem água', difficulty: 'simples', time: '1 min', priority: 'quando-possivel', solution: 'Fazer uma descarga', isDIY: true, price: 5.00 },
+      'diariamente,sim': { id: 42, title: 'Entupimento Parcial / Má Ventilação', description: 'Entupimento na rede cria sucção e esvazia o sifão.', cause: 'Problema ventilatório ou pré-entupimento', difficulty: 'avancado', time: '1-2 horas', priority: 'importante', solution: 'Chamar canalizador para limpar linha', isDIY: false, price: 5.00 },
+      'diariamente,nao': { id: 43, title: 'Vedação da Base Inexistente', description: 'Selo goteja gases invisíveis.', cause: 'Anel de vedação podre ou ausente', difficulty: 'medio', time: '1 hora', priority: 'importante', solution: 'Recolocar a sanita com novo vedante', isDIY: true, price: 5.00 }
     }
   },
 
@@ -229,26 +328,36 @@ export const diagnosisTrees: Record<string, DiagnosisTree> = {
 
   // COZINHA
   'cozinha-entupido': {
-    problemId: 9,
-    problemTitle: 'Lava-louça Entupido',
-    symptom: 'Água demora muito a descer ou fica parada na banca.',
+    problemId: 10,
+    problemTitle: 'Lava-Louça Entupido',
+    symptom: 'Água das panelas etc recusa-se a descer.',
     questions: [
       {
         id: 'q1',
-        question: 'O problema é só numa tina ou em ambas (se tiver duas)?',
+        question: 'O escoamento está totalmente parado ou demora algumas horas?',
         options: [
-          { id: 'uma', label: 'Só numa tina' },
-          { id: 'ambas', label: 'Em ambas ao mesmo tempo' }
+          { id: 'parado', label: 'Totalmente parado' },
+          { id: 'lento', label: 'Escoa lentamente' }
+        ]
+      },
+      {
+        id: 'q2',
+        question: 'Ao tentar usar o desentupidor, há um segundo buraco/bacia ao lado pelo qual a água sobe?',
+        options: [
+          { id: 'sim', label: 'Sim, numa das outras pias sobe.' },
+          { id: 'nao', label: 'Nao sobe nada ou é bacia única.' }
         ]
       }
     ],
     paths: {
-      'uma': 'result-sifao-tina',
-      'ambas': 'result-central-entupido'
+      'parado': 'q2',
+      'lento': 'q2'
     },
     results: {
-      'result-sifao-tina': { id: 80, title: 'Obstrução de Gordura na Tina', description: 'Acumulação de restos de comida e gordura no sifão da tina específica.', cause: 'Descarte de gorduras animais ou restos de comida.', difficulty: 'simples', time: '20 min', priority: 'importante', solution: 'Limpe o copo do sifão e use um produto desengordurante potente.', isDIY: true, price: 5.00 },
-      'result-central-entupido': { id: 81, title: 'Bloqueio no Colector da Cozinha', description: 'O entupimento está no tubo principal que une as tinas.', cause: 'Excesso de gordura solidificada na tubagem horizontal.', difficulty: 'medio', time: '1h', priority: 'urgente', solution: 'Use uma mola de desentupimento ou uma bomba de vácuo profissional.', isDIY: true, price: 5.00 }
+      'parado,sim': { id: 90, title: 'Ar Aprisionado / Duas Pias', description: 'Ao empurrar, o fluxo sai pelo ponto mais fácil (pia do lado).', cause: 'Entupimento abaixo da junção em T ou gordura severa.', difficulty: 'medio', time: '30 min', priority: 'importante', solution: 'Tapar firmemente um lado com pano, e usar o desentupidor no outro bocal com bastante pressão.', isDIY: true, price: 5.00 },
+      'parado,nao': { id: 91, title: 'Sifão Repleto de Gordura', description: 'A gordura da louça criou algo tipo "cimento".', cause: 'Restos de azeites/comida nas partes estreitas do P-trap.', difficulty: 'medio', time: '30-45 min', priority: 'urgente', solution: 'Remover cuidadosamente o sifão com balde por debaixo e realizar limpeza agressiva manual', isDIY: true, price: 5.00 },
+      'lento,sim': { id: 92, title: 'Cano Quase Obstruído', description: 'Gases e lodo começaram a abafar a zona.', cause: 'Acúmulo crónico de restos nos joelhos do cano.', difficulty: 'simples', time: '20 min', priority: 'quando-possivel', solution: 'Misturar vinagre/bicarbonato ou aplicar uma bacia de água a ferver para soltar gorduras menores.', isDIY: true, price: 5.00 },
+      'lento,nao': { id: 93, title: 'Crivo Obstruído Mínimo', description: 'Pode ser sujidade presa até na propria válvula/filtro ranhurado do fundo.', cause: 'Cabelos, arroz presinho.', difficulty: 'simples', time: '5 min', priority: 'quando-possivel', solution: 'Efectuar desobstrução à superfície sem desmanchar nada e limpar filtro de palhaço.', isDIY: true, price: 5.00 }
     }
   },
 
@@ -324,28 +433,137 @@ export const diagnosisTrees: Record<string, DiagnosisTree> = {
     }
   },
 
-  // CHUVEIRO & BANHEIRA
-  'chuveiro-entupido': {
-    problemId: 13,
-    problemTitle: 'Água Acumula no Chuveiro',
-    symptom: 'A água sobe durante o banho e demora a desaparecer.',
+  // LAVATORIOS
+  'lavatorio-entupido': {
+    problemId: 6,
+    problemTitle: 'Lavatório Entupido',
+    symptom: 'Água desce lentamente ou nada.',
     questions: [
       {
         id: 'q1',
-        question: 'Consegue ver cabelos acumulados no ralo?',
+        question: 'A água desce lentamente ou está totalmente parada (bloqueio total)?',
         options: [
-          { id: 'sim', label: 'Sim, há sujidade visível' },
-          { id: 'nao', label: 'Não, o ralo parece limpo superficialmente' }
+          { id: 'lenta', label: 'Muito lentamente' },
+          { id: 'parada', label: 'Parada por completo' }
+        ]
+      },
+      {
+        id: 'q2',
+        question: 'Já tentou utilizar um desentupidor manual?',
+        options: [
+          { id: 'sim', label: 'Sim, mas não ajudou' },
+          { id: 'nao', label: 'Ainda não' }
         ]
       }
     ],
     paths: {
-      'sim': 'result-cabelos-ralo',
-      'nao': 'result-entupimento-profundo'
+      'lenta': 'q2',
+      'parada': 'q2'
     },
     results: {
-      'result-cabelos-ralo': { id: 120, title: 'Acumulação de Cabelos e Sabão', description: 'Teia de cabelos bloqueia a passagem inicial da água.', cause: 'Processo natural de queda de cabelos no banho.', difficulty: 'simples', time: '10 min', priority: 'importante', solution: 'Remova a grelha e puxe os cabelos com um palito ou pinça.', isDIY: true, price: 5.00 },
-      'result-entupimento-profundo': { id: 121, title: 'Obstrução na Caixa Sifónica', description: 'O problema está na caixa de águas no centro da casa de banho.', cause: 'Acumulação global de resíduos na descarga geral.', difficulty: 'medio', time: '40 min', priority: 'urgente', solution: 'Abra a tampa redonda da caixa sifónica no chão e limpe o interior.', isDIY: true, price: 5.00 }
+      'lenta,sim': { id: 50, title: 'Cabelo Preso no Sifão', description: 'Bloqueio de cabelos agarrado ao crivo.', cause: 'Lixo no sifão (P-trap) ou na válvula pop-up', difficulty: 'simples', time: '15-30 min', priority: 'importante', solution: 'Desmontar válvula e sifão para limpar manualmente', isDIY: true, price: 5.00 },
+      'lenta,nao': { id: 51, title: 'Bloqueio Leve', description: 'Pequena acumulação de sujidade e sabão.', cause: 'Resíduos de pasta de dentes/sabão', difficulty: 'simples', time: '10 min', priority: 'quando-possivel', solution: 'Usar técnica do desentupidor ou produto biológico', isDIY: true, price: 5.00 },
+      'parada,sim': { id: 52, title: 'Rolha Sólida no Sifão', description: 'O sifão fechou totalmente a passagem de água.', cause: 'Tampão sólido de cabelos e calcário no sifão', difficulty: 'medio', time: '30-45 min', priority: 'urgente', solution: 'Colocar balde por baixo, desapertar e retirar o sifão', isDIY: true, price: 5.00 },
+      'parada,nao': { id: 53, title: 'Entupimento Profundo', description: 'Pode resolver-se com pressão.', cause: 'Bloqueio severo', difficulty: 'simples', time: '15 min', priority: 'importante', solution: 'Aplicar desentupidor com vigor tapando o tubo de respiro', isDIY: true, price: 5.00 }
+    }
+  },
+  'lavatorio-mau-cheiro': {
+    problemId: 7,
+    problemTitle: 'Mau Cheiro no Lavatório',
+    symptom: 'Odor desagradável do ralo do lavatório.',
+    questions: [
+      {
+        id: 'q1',
+        question: 'O cheiro assemelha-se a "ovos podres" (esgoto)?',
+        options: [
+          { id: 'sim', label: 'Sim, esgoto' },
+          { id: 'nao', label: 'Não, parece algo orgânico/podre' }
+        ]
+      },
+      {
+        id: 'q2',
+        question: 'O lavatório é usado?',
+        options: [
+          { id: 'sim', label: 'Diariamente' },
+          { id: 'nao', label: 'Pouco frequente' }
+        ]
+      }
+    ],
+    paths: {
+      'sim': 'q2',
+      'nao': 'q2'
+    },
+    results: {
+      'sim,nao': { id: 60, title: 'Sifão Evaporado', description: 'Gases de esgoto entram porque água do sifão sumiu.', cause: 'Falta de uso ressecou o P-trap', difficulty: 'simples', time: '1 min', priority: 'quando-possivel', solution: 'Abrir a torneira 30 segundos', isDIY: true, price: 5.00 },
+      'nao,sim': { id: 61, title: 'Bolor ou Lixo no Tubo de Ladrão', description: 'Cheiro de bactérias no buraco anti-transbordo.', cause: 'Acumulação bacteriana negra no "overflow"', difficulty: 'simples', time: '15 min', priority: 'quando-possivel', solution: 'Lavar respiro com lixívia e escovar pormenores do ralo', isDIY: true, price: 5.00 },
+      'sim,sim': { id: 62, title: 'Problema de Ventilação Local', description: 'O próprio uso deforma a água do sifão.', cause: 'Aspiragem do fecho hídrico (falta de ventação de coluna)', difficulty: 'avancado', time: 'Variável', priority: 'importante', solution: 'Chamar canalizador para rever ventilações da prumada', isDIY: false, price: 5.00 },
+      'nao,nao': { id: 63, title: 'Lodo Orgânico', description: 'Bactérias estão literalmente a apodrecer nos canos de cima.', cause: 'Falta de água a lavar a loiça por dentro', difficulty: 'simples', time: '10 min', priority: 'quando-possivel', solution: 'Limpeza com bicarbonato, vinagre e água quente', isDIY: true, price: 5.00 }
+    }
+  },
+  'lavatorio-torneira': {
+    problemId: 8,
+    problemTitle: 'Torneira do Lavatório a Pingar',
+    symptom: 'Torneira não fecha, sempre a goejar.',
+    questions: [
+      {
+        id: 'q1',
+        question: 'Por onde sai a água?',
+        options: [
+          { id: 'bico', label: 'Pelo bico da torneira' },
+          { id: 'base', label: 'Por debaixo dos manípulos ou base' }
+        ]
+      },
+      {
+        id: 'q2',
+        question: 'A torneira é monocomando (1 manipulo) ou bicomando (2 manípulos quent/fria)?',
+        options: [
+          { id: 'mono', label: 'Monocomando' },
+          { id: 'bi', label: 'Dois manípulos clássicos' }
+        ]
+      }
+    ],
+    paths: {
+      'bico': 'q2',
+      'base': 'q2'
+    },
+    results: {
+      'bico,mono': { id: 70, title: 'Cartucho Cerâmico Danificado', description: 'Cartucho central que mistura a água já não veda.', cause: 'Desgaste ou detritos no cartucho', difficulty: 'medio', time: '30 min', priority: 'importante', solution: 'Desmontar manípulo e substituir o cartucho interior', isDIY: true, price: 5.00 },
+      'bico,bi': { id: 71, title: 'Vedante de Borracha Gasto (Chupeta)', description: 'O vedante por baixo do manípulo trilhou-se.', cause: 'Borrachinha ressequida ao apertar com força', difficulty: 'simples', time: '30 min', priority: 'quando-possivel', solution: 'Substituir as "chupetas" de borracha velhas', isDIY: true, price: 5.00 },
+      'base,mono': { id: 72, title: 'O-Rings do Cartucho', description: 'Os vedantes estruturais falharam.', cause: 'Junta tórica (o-ring) traçada', difficulty: 'medio', time: '30 min', priority: 'importante', solution: 'Trocar vedantes de corpo interior', isDIY: true, price: 5.00 },
+      'base,bi': { id: 73, title: 'Porcas do Castelo Desapertadas', description: 'Onde o mecanismo enrosca à torneira está frouxo.', cause: 'Vibração contínua ao abrir/fechar', difficulty: 'simples', time: '15 min', priority: 'importante', solution: 'Limpar calcário e reapertar os castelos', isDIY: true, price: 5.00 }
+    }
+  },
+  'lavatorio-vazamento': {
+    problemId: 9,
+    problemTitle: 'Vazamento Debaixo do Lavatório',
+    symptom: 'Água a babar ou escorrer para o móvel/chão.',
+    questions: [
+      {
+        id: 'q1',
+        question: 'Onde está localizada a origem das gotas?',
+        options: [
+          { id: 'sifao', label: 'Nos canos brancos grossos (sifão)' },
+          { id: 'bichas', label: 'Nas ligações de malha de aço flexíveis' }
+        ]
+      },
+      {
+        id: 'q2',
+        question: 'A água aparece apenas quando o lavatório está a ser usado?',
+        options: [
+          { id: 'sim', label: 'Sim, só após lavar' },
+          { id: 'nao', label: 'Não, pinga permanentemente' }
+        ]
+      }
+    ],
+    paths: {
+      'sifao': 'q2',
+      'bichas': 'q2'
+    },
+    results: {
+      'sifao,sim': { id: 80, title: 'Porcas do Sifão Frouxas', description: 'As anilhas do PVC não estão a vedar as descargas.', cause: 'Porcas plásticas desapertadas', difficulty: 'simples', time: '5 min', priority: 'importante', solution: 'Apertar fisicamente as porcas com as mãos (sem muito aperto)', isDIY: true, price: 5.00 },
+      'sifao,nao': { id: 81, title: 'Ruptura Invisível', description: 'O problema não deveria acontecer com torneiras fechadas.', cause: 'Mistério entre válvula presa e água que sobrou', difficulty: 'medio', time: '20 min', priority: 'importante', solution: 'Desmontar válvula para avaliar rachas no lavatório', isDIY: true, price: 5.00 },
+      'bichas,sim': { id: 82, title: 'Vazamento Dinâmico', description: 'Os tubos têm fuga intermitente com os picos de pressão.', cause: 'Mangueiras flexíveis dobradas ou gretadas', difficulty: 'avancado', time: '45 min', priority: 'urgente', solution: 'Substituir as bichas flexíveis ou torneira (risco alto se ignorar)', isDIY: false, price: 5.00 },
+      'bichas,nao': { id: 83, title: 'Ligaçäo à Parede Deficiente', description: 'As roscas de alta pressão estão a verter.', cause: 'Anilha interior das bichas cedeu/vedante da válvula escudete', difficulty: 'medio', time: '30 min', priority: 'urgente', solution: 'Desligar corte geral; Fazer vedação teflon em tubos de água novos', isDIY: true, price: 5.00 }
     }
   },
 
