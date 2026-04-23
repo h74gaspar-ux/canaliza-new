@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "skills": {
+    "self-improving-agent": {
+      "version": "3.0.10",
+      "installedAt": 1774983436468
+    },
+    "skill-vetter": {
+      "version": "1.0.0",
+      "installedAt": 1774989421772
+    },
+    "self-improving": {
+      "version": "1.2.16",
+      "installedAt": 1774990317383
+    },
+    "find-skills-skill": {
+      "version": "1.0.0",
+      "installedAt": 1774991895685
+    },
+    "humanizer": {
+      "version": "1.0.0",
+      "installedAt": 1774992800373
+    },
+    "clawddocs": {
+      "version": "1.2.2",
+      "installedAt": 1774993030923
+    },
+    "proactive-agent-skill": {
+      "version": "1.0.0",
+      "installedAt": 1774993749367
+    },
+    "auto-updater": {
+      "version": "1.0.0",
+      "installedAt": 1774994052648
+    },
+    "free-models-for-openclaw": {
+      "version": "0.3.0",
+      "installedAt": 1774999734224
+    },
+    "notebooklm-py": {
+      "version": "1.0.0",
+      "installedAt": 1775082181092
+    },
+    "notebooklm-bypass": {
+      "version": "1.0.6",
+      "installedAt": 1775084615197
+    },
+    "tiangong-notebooklm-cli": {
+      "version": "0.1.1",
+      "installedAt": 1775084676158
+    },
+    "notebooklm-skill": {
+      "version": "0.1.0",
+      "installedAt": 1775084730334
+    }
+  }
+}
