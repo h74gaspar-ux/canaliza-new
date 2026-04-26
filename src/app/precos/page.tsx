@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { 
+import {
   Crown,
   Check,
   X,
@@ -45,7 +45,7 @@ const pricingPlans = [
   {
     id: 'premium-monthly',
     name: 'Premium Mensal',
-    price: 5.00,
+    price: 20.00,
     period: '/mês',
     description: 'Acesso ilimitado a todas as soluções',
     isPopular: true,
@@ -61,7 +61,7 @@ const pricingPlans = [
   {
     id: 'premium-yearly',
     name: 'Premium Anual',
-    price: 5.00,
+    price: 100.00,
     period: '/ano',
     description: 'Melhor valor - Poupa mais de 75%',
     badge: 'Melhor Valor',
@@ -119,7 +119,7 @@ export default function PrecosPage() {
     <div className="min-h-screen flex flex-col bg-transparent text-slate-800 overflow-x-hidden">
 
       {/* Header */}
-      <motion.header 
+      <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         className="border-b border-white/10 bg-white/5 backdrop-blur-xl sticky top-0 z-50"
@@ -128,10 +128,10 @@ export default function PrecosPage() {
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <div className="relative">
               <div className="absolute inset-0 bg-yellow-400/20 rounded-full blur-xl animate-pulse" />
-              <Image 
-                src="/logo-abstract.png" 
-                alt="CanalizaDIY Logo" 
-                width={50} 
+              <Image
+                src="/logo-abstract.png"
+                alt="CanalizaDIY Logo"
+                width={50}
                 height={50}
                 className="relative z-10"
               />
@@ -143,7 +143,7 @@ export default function PrecosPage() {
               <p className="text-xs text-blue-600 font-medium">Diagnóstico Interativo</p>
             </div>
           </Link>
-          
+
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/" className="text-slate-800 hover:text-blue-700 transition-colors text-base font-semibold">Diagnóstico</Link>
             <Link href="/catalogo" className="text-slate-800 hover:text-blue-700 transition-colors text-base font-semibold">Catálogo</Link>
@@ -162,7 +162,7 @@ export default function PrecosPage() {
       <main className="flex-1 relative z-10 py-12">
         <div className="container mx-auto px-4">
           {/* Header */}
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -231,11 +231,11 @@ export default function PrecosPage() {
                         </div>
                       ))}
                     </div>
-                    <Button 
-                      className={`w-full py-10 rounded-2xl font-black text-xl shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 border-b-4 ${plan.isPopular 
-                        ? 'bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 text-white hover:from-blue-700 hover:to-cyan-600 shadow-blue-500/30 border-blue-800' 
+                    <Button
+                      className={`w-full py-10 rounded-2xl font-black text-xl shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 border-b-4 ${plan.isPopular
+                        ? 'bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 text-white hover:from-blue-700 hover:to-cyan-600 shadow-blue-500/30 border-blue-800'
                         : 'bg-white border-2 border-slate-200 text-slate-800 hover:bg-slate-50 shadow-slate-200/50 border-b-slate-300'
-                      }`}
+                        }`}
                     >
                       {plan.id === 'individual' ? (
                         <>
@@ -255,7 +255,7 @@ export default function PrecosPage() {
           </div>
 
           {/* Trust Badges */}
-          <motion.div 
+          <motion.div
             className="flex flex-wrap justify-center gap-6 mb-20"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -343,7 +343,7 @@ export default function PrecosPage() {
           </motion.div>
 
           {/* Final CTA */}
-          <motion.div 
+          <motion.div
             className="text-center mt-16"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -373,10 +373,10 @@ export default function PrecosPage() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-12">
             <div className="flex items-center gap-6">
               <div className="bg-white p-3 rounded-3xl shadow-xl shadow-blue-500/5 border border-slate-100 ring-8 ring-blue-500/5">
-                <Image 
-                  src="/logo-abstract.png" 
-                  alt="CanalizaDIY Logo" 
-                  width={50} 
+                <Image
+                  src="/logo-abstract.png"
+                  alt="CanalizaDIY Logo"
+                  width={50}
                   height={50}
                 />
               </div>
@@ -385,7 +385,7 @@ export default function PrecosPage() {
                 <p className="text-blue-600 text-xs font-black uppercase tracking-widest mt-1">O seu especialista em casa</p>
               </div>
             </div>
-            
+
             <div className="flex gap-10 text-base font-black text-slate-500">
               <Link href="#" className="hover:text-blue-600 transition-colors uppercase tracking-widest text-xs">Termos</Link>
               <Link href="#" className="hover:text-blue-600 transition-colors uppercase tracking-widest text-xs">Privacidade</Link>

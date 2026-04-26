@@ -33,7 +33,8 @@ import {
   ShieldCheck,
   Play,
   Star,
-  Eye
+  Eye,
+  Info
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -158,10 +159,10 @@ export default function Home() {
     { 
       id: 'canaliza-diy', 
       name: 'Canaliza Geral', 
-      icon: <div className="w-24 h-24 relative flex items-center justify-center mix-blend-multiply"><Hammer className="w-16 h-16 text-slate-700 drop-shadow-md" /></div>, 
-      problemCount: 4, 
-      color: 'from-slate-200 to-gray-50', 
-      beamColor: '#475569' 
+      icon: <div className="w-24 h-24 relative mix-blend-multiply"><Image src="/images/categories/geral.png" alt="Canaliza Geral" fill className="object-contain drop-shadow-md" /></div>, 
+      problemCount: selectedHousing === 'vivenda' ? 5 : 4, 
+      color: 'from-blue-100 to-slate-50', 
+      beamColor: '#3b82f6' 
     },
   ]
 
@@ -205,8 +206,10 @@ export default function Home() {
       selectedHousing === 'vivenda'
         ? { key: 'termoacumulador-frio', title: 'Problemas no Termoacumulador (Cilindro)', symptom: 'Cilindro elétrico não aquece ou pinga' }
         : { key: 'esquentador-frio', title: 'Água Fria no Esquentador', symptom: 'Esquentador não aquece' },
-      { key: 'falha-bombas', title: 'Falha em Bombas de Esgoto', symptom: 'Inundação na cave (Sump Pumps)' },
-    ],
+      selectedHousing === 'vivenda' 
+        ? { key: 'falha-bombas', title: 'Falha em Bombas de Esgoto', symptom: 'Inundação na cave (Sump Pumps)' }
+        : null,
+    ].filter((p): p is { key: string; title: string; symptom: string } => p !== null),
   }
 
   // Get category name
@@ -348,6 +351,8 @@ export default function Home() {
                   <p className="text-slate-500 max-w-xl mx-auto mb-10 text-xl font-medium leading-relaxed">
                     Identifique a origem do problema e saiba exatamente como resolver antes de chamar um profissional.
                   </p>
+
+
                   
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Button 
@@ -619,31 +624,31 @@ export default function Home() {
               >
                 {diagnosisResult ? (
                   <div className="max-w-4xl mx-auto space-y-8">
-                     <div className="bg-gradient-to-br from-white to-blue-50/50 backdrop-blur-xl border-4 border-white p-12 rounded-[4rem] shadow-2xl relative overflow-hidden group">
+                     <div className="bg-gradient-to-br from-white to-blue-50/50 backdrop-blur-xl border-4 border-white p-8 rounded-[3rem] shadow-2xl relative overflow-hidden group">
                         
-                        <div className="absolute top-0 right-0 p-10 opacity-10 group-hover:rotate-12 transition-transform duration-700">
-                           <CheckCircle2 className="w-48 h-48 text-blue-600" />
+                        <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:rotate-12 transition-transform duration-700">
+                           <CheckCircle2 className="w-32 h-32 text-emerald-500" />
                         </div>
 
                         <div className="relative z-10">
-                           <Badge className="bg-blue-600 text-white px-6 py-2 rounded-full font-black text-xs uppercase tracking-widest mb-8">Diagnóstico Concluído</Badge>
-                           <h2 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter mb-6">{diagnosisResult.title}</h2>
-                           <p className="text-slate-600 text-xl font-medium leading-relaxed max-w-2xl mb-12">{diagnosisResult.description}</p>
+                           <Badge className="bg-blue-600 text-white px-5 py-1.5 rounded-full font-black text-[10px] uppercase tracking-widest mb-3">Diagnóstico Concluído</Badge>
+                           <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter mb-2">{diagnosisResult.title}</h2>
+                           <p className="text-slate-600 text-base font-medium leading-relaxed max-w-2xl mb-6">{diagnosisResult.description}</p>
                            
-                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-                              <div className="bg-white/60 p-8 rounded-[2.5rem] border border-white shadow-sm">
-                                 <div className="flex items-center gap-3 mb-4">
-                                    <AlertTriangle className="w-6 h-6 text-orange-500" />
-                                    <h4 className="text-slate-400 font-bold uppercase tracking-widest text-xs">Causa Provável</h4>
+                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                              <div className="bg-white/60 p-6 rounded-[2rem] border border-white shadow-sm">
+                                 <div className="flex items-center gap-3 mb-2">
+                                    <AlertTriangle className="w-5 h-5 text-orange-500" />
+                                    <h4 className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Causa Provável</h4>
                                  </div>
-                                 <p className="text-slate-900 font-black text-xl leading-tight">{diagnosisResult.cause}</p>
+                                 <p className="text-slate-900 font-black text-lg leading-tight">{diagnosisResult.cause}</p>
                               </div>
                               
-                              <div className="bg-white/60 p-8 rounded-[2.5rem] border border-white shadow-sm">
+                              <div className="bg-white/60 p-6 rounded-[2rem] border border-white shadow-sm">
                                   <div className="flex items-center gap-6">
                                      <div>
-                                        <h4 className="text-slate-400 font-bold uppercase tracking-widest text-xs mb-2">Dificuldade</h4>
-                                        <Badge variant="outline" className={`px-4 py-1 font-black text-sm rounded-lg ${
+                                        <h4 className="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-1">Dificuldade</h4>
+                                        <Badge variant="outline" className={`px-3 py-0.5 font-black text-xs rounded-lg ${
                                           diagnosisResult.difficulty === 'simples' ? 'text-green-600 bg-green-50 border-green-200' :
                                           diagnosisResult.difficulty === 'medio' ? 'text-orange-600 bg-orange-50 border-orange-200' : 
                                           'text-red-600 bg-red-50 border-red-200'
@@ -651,10 +656,10 @@ export default function Home() {
                                            {diagnosisResult.difficulty.toUpperCase()}
                                         </Badge>
                                      </div>
-                                     <div className="w-px h-12 bg-slate-200" />
+                                     <div className="w-px h-10 bg-slate-200" />
                                      <div>
-                                        <h4 className="text-slate-400 font-bold uppercase tracking-widest text-xs mb-2">Tempo Est.</h4>
-                                        <div className="flex items-center gap-2 font-black text-slate-800 italic">
+                                        <h4 className="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-1">Tempo Est.</h4>
+                                        <div className="flex items-center gap-2 font-black text-slate-800 italic text-sm">
                                           <Clock className="w-4 h-4 text-blue-500" />
                                           {diagnosisResult.time}
                                         </div>
@@ -663,31 +668,31 @@ export default function Home() {
                               </div>
                            </div>
 
-                           <Card className="bg-gradient-to-br from-blue-700 to-[#1a5fa8] border-none p-10 rounded-[3rem] shadow-2xl relative overflow-hidden">
+                           <Card className="bg-gradient-to-br from-blue-700 to-[#1a5fa8] border-none p-6 rounded-[2rem] shadow-2xl relative overflow-hidden">
                               <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
-                              <CardHeader className="p-0 mb-8">
-                                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                              <CardHeader className="p-0 mb-4">
+                                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                                     <div>
-                                       <CardTitle className="text-white text-3xl font-black tracking-tight mb-2">Solução Detalhada</CardTitle>
-                                       <CardDescription className="text-blue-100/60 font-medium text-lg italic">Passo-a-passo, materiais e dicas para resolver sozinho.</CardDescription>
+                                       <CardTitle className="text-white text-2xl font-black tracking-tight mb-1">Solução Detalhada</CardTitle>
+                                       <CardDescription className="text-blue-100/60 font-medium text-base italic">Passo-a-passo, materiais e dicas para resolver sozinho.</CardDescription>
                                     </div>
-                                    <div className="bg-white/10 backdrop-blur-md px-8 py-4 rounded-3xl border border-white/20 text-center">
-                                       <span className="text-blue-100/60 font-black text-xs uppercase tracking-widest block mb-1">Preço Público</span>
-                                       <span className="text-white text-4xl font-black">€{diagnosisResult.price.toFixed(2)}</span>
+                                    <div className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20 text-center">
+                                       <span className="text-blue-100/60 font-black text-[10px] uppercase tracking-widest block mb-0.5">Preço Público</span>
+                                       <span className="text-white text-3xl font-black">€{diagnosisResult.price.toFixed(2)}</span>
                                     </div>
                                  </div>
                               </CardHeader>
                               <CardContent className="p-0">
-                                 <Button className="w-full bg-white text-blue-700 hover:bg-blue-50 font-black text-2xl py-10 rounded-2xl shadow-xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-4">
-                                    <ShoppingCart className="w-8 h-8" />
-                                    Desbloquear Agora
+                                 <Button className="w-full bg-white text-blue-700 hover:bg-blue-50 font-black text-lg py-6 rounded-2xl shadow-xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-4">
+                                    <ShoppingCart className="w-6 h-6" />
+                                    Desbloquear Solução Completa (€{diagnosisResult.price.toFixed(2)})
                                  </Button>
-                                 <div className="mt-8 flex flex-wrap justify-center gap-6">
-                                    <div className="flex items-center gap-2 text-blue-100 opacity-60 text-sm font-bold">
+                                 <div className="mt-6 flex flex-wrap justify-center gap-4">
+                                    <div className="flex items-center gap-2 text-blue-100 opacity-60 text-xs font-bold">
                                        <CheckCircle2 className="w-4 h-4" />
                                        Garantia de Satisfação
                                     </div>
-                                    <div className="flex items-center gap-2 text-blue-100 opacity-60 text-sm font-bold">
+                                    <div className="flex items-center gap-2 text-blue-100 opacity-60 text-xs font-bold">
                                        <Clock className="w-4 h-4" />
                                        Download Imediato
                                     </div>
@@ -738,8 +743,8 @@ export default function Home() {
             >
                <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                   <div className="flex items-center gap-4">
-                     <div className="w-12 h-12 bg-white rounded-2xl shadow-xl flex items-center justify-center border border-slate-50">
-                        <Droplet className="w-6 h-6 text-blue-500" />
+                     <div className="w-12 h-12 bg-white rounded-2xl shadow-xl flex items-center justify-center border border-slate-50 overflow-hidden">
+                        <Image src="/logo-abstract.png" alt="CanalizaDIY" width={32} height={32} />
                      </div>
                      <div>
                         <h4 className="text-lg font-black text-slate-800 tracking-tighter">Canaliza DIY</h4>
