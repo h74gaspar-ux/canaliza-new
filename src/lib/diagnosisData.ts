@@ -236,6 +236,40 @@ export const diagnosisTrees: Record<string, DiagnosisTree> = {
     }
   },
 
+  'sanita-agua-desce': {
+    problemId: 26,
+    problemTitle: 'Nível da Água Desce Sozinho',
+    symptom: 'A água na bacia da sanita desce sem fuga visível.',
+    questions: [
+      {
+        id: 'q1',
+        question: 'Ouve a sanita a "encher-se" sozinha de vez em quando, como se alguém fizesse descarga?',
+        options: [
+          { id: 'sim-fantasma', label: 'Sim, oiço a água a correr sozinha de tempos a tempos' },
+          { id: 'nao-fantasma', label: 'Não, está sempre silenciosa' }
+        ]
+      },
+      {
+        id: 'q2',
+        question: 'O nível da água na bacia desce quando alguém usa outro esgoto da casa (chuveiro, lavatório)?',
+        options: [
+          { id: 'sim-sifonagem', label: 'Sim, desce quando usam outros esgotos' },
+          { id: 'nao-sifonagem', label: 'Não, desce sozinho independentemente' }
+        ]
+      }
+    ],
+    paths: {
+      'sim-fantasma': 'q2',
+      'nao-fantasma': 'q2'
+    },
+    results: {
+      'sim-fantasma,sim-sifonagem': { id: 250, title: 'Válvula Gasta + Problema de Ventilação', description: 'O flapper do autoclismo não veda e a ventilação do esgoto está a criar sifonagem que suga água da bacia.', cause: 'Combinação de válvula de descarga gasta e ventilação insuficiente na coluna de esgoto.', difficulty: 'avancado', time: '1-2h', priority: 'urgente', solution: 'Substitua a válvula de borracha (flapper) no autoclismo. Se a sifonagem persistir, contacte canalizador para verificar ventilação.', isDIY: true, price: 5.00 },
+      'sim-fantasma,nao-sifonagem': { id: 251, title: 'Válvula de Descarga (Flapper) Não Veda', description: 'A borracha na base do autoclismo deformou-se e deixa passar água lentamente para a bacia, causando "enchimentos fantasma".', cause: 'Flapper endurecido, com calcário, ou mal posicionado.', difficulty: 'simples', time: '20 min', priority: 'importante', solution: 'Abra o autoclismo. Limpe o flapper e o assento com vinagre. Se estiver duro ou rachado, substitua por um universal. Ajuste o flutuador para baixar o nível abaixo do tubo de transbordo.', isDIY: true, price: 5.00 },
+      'nao-fantasma,sim-sifonagem': { id: 252, title: 'Sifonagem por Ventilação Deficiente', description: 'Quando outros esgotos são usados, criam vácuo na coluna e sugam a água da bacia da sanita.', cause: 'Falta de respiradouros ou coluna de esgoto obstruída criando efeito de vácuo.', difficulty: 'avancado', time: 'Variável', priority: 'importante', solution: 'Este é um problema de ventilação da coluna de esgoto. Contacte canalizador para instalar válvula anti-sifonagem ou verificar respiradouros.', isDIY: false, price: 5.00 },
+      'nao-fantasma,nao-sifonagem': { id: 253, title: 'Fissura Interna na Porcelana', description: 'A sanita pode ter uma fissura invisível no sifão interno que permite fuga lenta de água.', cause: 'Micro-fissura na porcelana da bacia, possivelmente causada por impacto ou defeito.', difficulty: 'avancado', time: 'Substituição', priority: 'urgente', solution: 'Verifique visualmente fissuras na base e no interior. Se confirmado, é necessário substituir a sanita. Contacte profissional.', isDIY: false, price: 5.00 }
+    }
+  },
+
   'lavatorio-entupido': {
     problemId: 5,
     problemTitle: 'Lavatório Entupido',
@@ -310,20 +344,44 @@ export const diagnosisTrees: Record<string, DiagnosisTree> = {
     questions: [
       {
         id: 'q1',
+        question: 'A água pinga pelo bico da torneira ou nota humidade na base/manípulo?',
+        options: [
+          { id: 'bico', label: 'Pinga pelo bico (saída de água)' },
+          { id: 'base', label: 'Água aparece na base ou à volta do manípulo' }
+        ]
+      },
+      {
+        id: 'q2',
         question: 'Que tipo de torneira é?',
         options: [
-          { id: 'misturadora', label: 'Uma manete (levanta e vira)' },
-          { id: 'tradicional', label: 'Duas manetes (fria e quente separada)' }
+          { id: 'misturadora', label: 'Monocomando (uma única alavanca)' },
+          { id: 'tradicional', label: 'Duas manetes separadas (fria e quente)' }
+        ]
+      },
+      {
+        id: 'q3',
+        question: 'Nota depósitos de calcário branco à volta da torneira ou sente resistência ao fechar?',
+        options: [
+          { id: 'sim-calcario', label: 'Sim, há crostas brancas ou custa a fechar' },
+          { id: 'nao-calcario', label: 'Não, está limpa e roda normalmente' }
         ]
       }
     ],
     paths: {
-      'misturadora': 'result-cartucho-ceramico',
-      'tradicional': 'result-vedante-borracha'
+      'bico': 'q2',
+      'base': 'q2',
+      'misturadora': 'q3',
+      'tradicional': 'q3'
     },
     results: {
-      'result-cartucho-ceramico': { id: 70, title: 'Cartucho de Discos Cerâmicos Gasto', description: 'O mecanismo interno que controla o fluxo está danificado.', cause: 'Desgaste natural ou areias na água.', difficulty: 'medio', time: '30 min', priority: 'importante', solution: 'Identifique a marca e substitua o cartucho cerâmico interno.', isDIY: true, price: 5.00 },
-      'result-vedante-borracha': { id: 71, title: 'Vedante (Gaxeta) Danificado', description: 'A borracha que veda a passagem de água está deformada.', cause: 'Aperto excessivo ou calcário.', difficulty: 'simples', time: '15 min', priority: 'importante', solution: 'Substitua a anilha de borracha (vedante) interna da manete.', isDIY: true, price: 5.00 }
+      'bico,misturadora,sim-calcario': { id: 70, title: 'Cartucho Cerâmico Bloqueado por Calcário', description: 'O calcário infiltrou-se nos discos cerâmicos e impede o fecho total.', cause: 'Depósitos minerais no cartucho cerâmico da misturadora.', difficulty: 'medio', time: '30 min', priority: 'importante', solution: 'Feche a água. Retire o manípulo (parafuso sob tampa decorativa). Extraia o cartucho e mergulhe em vinagre 2h. Se não resolver, substitua por idêntico.', isDIY: true, price: 5.00 },
+      'bico,misturadora,nao-calcario': { id: 71, title: 'Cartucho Cerâmico Gasto', description: 'Os discos cerâmicos desgastaram-se com o uso e não vedam.', cause: 'Desgaste natural após anos de utilização.', difficulty: 'medio', time: '30 min', priority: 'importante', solution: 'Feche a água. Retire o manípulo e extraia o cartucho antigo. Leve-o à loja para comprar um idêntico.', isDIY: true, price: 5.00 },
+      'bico,tradicional,sim-calcario': { id: 72, title: 'Anilha e Assento com Calcário', description: 'O calcário acumulou-se na anilha e no assento da válvula.', cause: 'Calcário incrustado no assento de latão e anilha de borracha.', difficulty: 'medio', time: '40 min', priority: 'importante', solution: 'Feche a água. Desmonte a manete, retire a anilha e mergulhe em vinagre. Limpe o assento com lixa fina (grão 400).', isDIY: true, price: 5.00 },
+      'bico,tradicional,nao-calcario': { id: 73, title: 'Anilha de Borracha Gasta', description: 'A anilha (washer) que faz vedação está deformada ou rasgada.', cause: 'Desgaste natural da anilha após uso prolongado.', difficulty: 'simples', time: '15 min', priority: 'importante', solution: 'Feche a água. Retire a manete e desaperte o espigão. Substitua a anilha de borracha por uma nova do mesmo tamanho.', isDIY: true, price: 5.00 },
+      'base,misturadora,sim-calcario': { id: 74, title: 'O-Rings com Calcário Incrustado', description: 'Os vedantes na base do corpo da torneira estão cobertos de calcário.', cause: 'Calcário a desgastar e endurecer os O-rings da base.', difficulty: 'medio', time: '30 min', priority: 'importante', solution: 'Feche a água. Desmonte a torneira, limpe os O-rings com vinagre e substitua-os se estiverem rígidos.', isDIY: true, price: 5.00 },
+      'base,misturadora,nao-calcario': { id: 75, title: 'O-Rings Ressequidos ou Junta Solta', description: 'As borrachas de vedação da base endureceram ou a porca de fixação desapertou.', cause: 'O-rings ressequidos pelo calor ou aperto insuficiente.', difficulty: 'simples', time: '15 min', priority: 'importante', solution: 'Feche a água. Verifique se a porca da base está apertada. Se continuar, desmonte e substitua os O-rings.', isDIY: true, price: 5.00 },
+      'base,tradicional,sim-calcario': { id: 76, title: 'Castelo Calcificado', description: 'O calcário bloqueou o castelo (corpo roscado) e a água escapa pela rosca.', cause: 'Depósitos minerais nas roscas do castelo impedem vedação.', difficulty: 'medio', time: '30 min', priority: 'importante', solution: 'Feche a água. Desaperte o castelo, limpe toda a rosca com vinagre e escova de arame fina. Aplique fita PTFE ao remontar.', isDIY: true, price: 5.00 },
+      'base,tradicional,nao-calcario': { id: 77, title: 'Empanque (Gaxeta) Gasto', description: 'O empanque de fibra que veda o castelo desgastou-se.', cause: 'Desgaste natural do material de empanque.', difficulty: 'simples', time: '15 min', priority: 'quando-possivel', solution: 'Feche a água. Desaperte o castelo e substitua o empanque de fibra por novo. Aperte sem força excessiva.', isDIY: true, price: 5.00 }
     }
   },
 
@@ -600,6 +658,54 @@ export const diagnosisTrees: Record<string, DiagnosisTree> = {
     }
   },
 
+  'chuveiro-torneira': {
+    problemId: 19,
+    problemTitle: 'Torneira do Chuveiro a Pingar',
+    symptom: 'A torneira da base de chuveiro não fecha totalmente e pinga constantemente.',
+    questions: [
+      {
+        id: 'q1',
+        question: 'Que tipo de torneira tem na base do chuveiro?',
+        options: [
+          { id: 'monocomando', label: 'Monocomando (uma única alavanca)' },
+          { id: 'duas-pegas', label: 'Duas pegas separadas (quente e frio)' }
+        ]
+      },
+      {
+        id: 'q2',
+        question: 'Nota acumulação de calcário branco à volta da torneira ou no crivo?',
+        options: [
+          { id: 'sim-calcario', label: 'Sim, há depósitos brancos visíveis' },
+          { id: 'nao-calcario', label: 'Não, a torneira está limpa' }
+        ]
+      },
+      {
+        id: 'q3',
+        question: 'Como é o gotejamento?',
+        options: [
+          { id: 'constante', label: 'Pinga sempre, mesmo com a torneira bem fechada' },
+          { id: 'ao-fechar', label: 'Só pinga uns segundos depois de fechar, depois para' }
+        ]
+      }
+    ],
+    paths: {
+      'monocomando': 'q2',
+      'duas-pegas': 'q2',
+      'sim-calcario': 'q3',
+      'nao-calcario': 'q3'
+    },
+    results: {
+      'monocomando,sim-calcario,constante': { id: 190, title: 'Cartucho Cerâmico Bloqueado por Calcário', description: 'O calcário infiltrou-se no cartucho cerâmico interno e impede o fecho completo da válvula.', cause: 'Acumulação de depósitos minerais (calcário) no cartucho cerâmico da misturadora monocomando.', difficulty: 'medio', time: '30-45m', priority: 'importante', solution: 'Feche a água. Retire o manípulo (parafuso escondido sob a tampa decorativa). Extraia o cartucho cerâmico com uma chave adequada. Mergulhe-o em vinagre branco durante 2h para dissolver o calcário. Se não melhorar, substitua o cartucho por um idêntico (leve o antigo à loja).', isDIY: true, price: 5.00 },
+      'monocomando,sim-calcario,ao-fechar': { id: 191, title: 'Calcário no Assento da Válvula', description: 'O calcário acumulou-se no assento onde o cartucho encosta, criando uma superfície irregular que deixa escapar água residual.', cause: 'Depósitos de calcário no assento interno da válvula impedem a vedação perfeita.', difficulty: 'simples', time: '20m', priority: 'quando-possivel', solution: 'Feche a água. Desmonte o manípulo e retire o cartucho. Limpe o interior do corpo da torneira com vinagre e uma escova de dentes velha. Aplique massa lubrificante de silicone nos O-rings antes de remontar.', isDIY: true, price: 5.00 },
+      'monocomando,nao-calcario,constante': { id: 192, title: 'Cartucho Cerâmico Gasto', description: 'Os discos cerâmicos internos desgastaram-se com o uso e já não conseguem criar vedação hermética.', cause: 'Desgaste natural dos discos cerâmicos do cartucho após anos de utilização.', difficulty: 'medio', time: '30m', priority: 'importante', solution: 'Feche a água. Retire o manípulo e extraia o cartucho antigo. Leve-o a uma loja de materiais de canalização para comprar um cartucho de substituição idêntico. Instale o novo cartucho e teste.', isDIY: true, price: 5.00 },
+      'monocomando,nao-calcario,ao-fechar': { id: 193, title: 'O-Rings Ressequidos', description: 'As borrachas de vedação (O-rings) do cartucho endureceram e perderam elasticidade.', cause: 'Os vedantes de borracha (O-rings) ressequiram com o calor e o tempo.', difficulty: 'simples', time: '15m', priority: 'quando-possivel', solution: 'Feche a água. Desmonte a torneira e localize os O-rings no cartucho. Substitua-os por novos do mesmo diâmetro (disponíveis em kits universais). Aplique massa de silicone nos novos O-rings antes de remontar.', isDIY: true, price: 5.00 },
+      'duas-pegas,sim-calcario,constante': { id: 194, title: 'Anilha e Assento com Calcário Incrustado', description: 'A anilha de borracha e o assento metálico da válvula estão cobertos de calcário, impedindo a selagem.', cause: 'Calcário incrustado tanto na anilha de fecho como no assento da válvula de latão.', difficulty: 'medio', time: '40m', priority: 'importante', solution: 'Feche a água. Desaperte o espigão da pega afetada. Retire o vástago e a anilha de borracha do fundo. Mergulhe tudo em vinagre branco 1-2h. Se a anilha estiver rígida, substitua-a. Limpe o assento metálico com lixa fina (grão 400). Remonte e teste.', isDIY: true, price: 5.00 },
+      'duas-pegas,sim-calcario,ao-fechar': { id: 195, title: 'Depósitos Minerais no Vástago', description: 'O calcário prendeu-se ao longo do vástago roscado, dificultando o fecho completo da pega.', cause: 'Calcário acumulado nas roscas do vástago impede rotação total até ao ponto de fecho.', difficulty: 'simples', time: '25m', priority: 'quando-possivel', solution: 'Feche a água. Desmonte a pega e extraia o vástago. Limpe toda a rosca com vinagre e uma escova de arame fina. Aplique massa lubrificante antes de remontar. A torneira deve fechar com menos esforço.', isDIY: true, price: 5.00 },
+      'duas-pegas,nao-calcario,constante': { id: 196, title: 'Anilha de Borracha Gasta', description: 'A anilha (washer) que faz a vedação na base do vástago está deformada ou rasgada.', cause: 'Desgaste natural da anilha de borracha após utilização prolongada.', difficulty: 'simples', time: '15m', priority: 'importante', solution: 'Feche a água. Retire a pega e desaperte o espigão. No fundo do vástago, encontrará a anilha presa por um parafuso pequeno. Substitua-a por uma nova do mesmo tamanho. São baratas e vendem-se em qualquer loja de bricolagem.', isDIY: true, price: 5.00 },
+      'duas-pegas,nao-calcario,ao-fechar': { id: 197, title: 'Assento da Válvula Corroído', description: 'A superfície metálica onde a anilha assenta está irregular ou corroída, permitindo micro-fugas.', cause: 'Corrosão ou desgaste no assento de latão da válvula.', difficulty: 'medio', time: '30m', priority: 'quando-possivel', solution: 'Feche a água. Desmonte o vástago e inspecione o assento (superfície metálica circular no fundo). Se estiver irregular, use uma ferramenta de retificação de assentos (seat grinder) ou substitua a válvula completa. Para corrosão ligeira, pode lixar com lixa de água grão 600.', isDIY: true, price: 5.00 }
+    }
+  },
+
   'banheira-entupida': {
     problemId: 17,
     problemTitle: 'Agua da Banheira Demora Descer',
@@ -615,7 +721,7 @@ export const diagnosisTrees: Record<string, DiagnosisTree> = {
       },
       {
         id: 'q2',
-        question: 'Costuma tomar banho junto a cães peliudos ali ou lavem coisas espessas nela por comodar?',
+        question: 'Costuma dar banho aos seus animais de estimação ali ou lavar coisas espessas nela?',
         options: [
           { id: 'sim', label: 'Sim.' },
           { id: 'nao', label: 'Não' }
@@ -645,53 +751,25 @@ export const diagnosisTrees: Record<string, DiagnosisTree> = {
           { id: 'nao', label: 'Não, está preto ou a descolar' },
           { id: 'sim', label: 'Sim, o silicone parece bem vedado' }
         ]
+      },
+      {
+        id: 'q2',
+        question: 'Quando nota a humidade: durante o banho ou ao esvaziar a banheira?',
+        options: [
+          { id: 'durante', label: 'Aparece enquanto tomo banho (salpicos/chuveiro)' },
+          { id: 'esvaziar', label: 'Só aparece quando esvazio a banheira' }
+        ]
       }
     ],
     paths: {
-      'nao': 'result-renovar-silicone',
-      'sim': 'result-fuga-esgoto-banheira'
+      'nao': 'q2',
+      'sim': 'q2'
     },
     results: {
-      'result-renovar-silicone': { id: 160, title: 'Vedação de Silicone Ineficaz', description: 'A água infiltra-se entre o azulejo e a banheira.', cause: 'Descolamento do silicone por envelhecimento.', difficulty: 'medio', time: '2h', priority: 'importante', solution: 'Remova todo o silicone antigo, desinfete com lixívia, seque bem e aplique novo silicone sanitário.', isDIY: true, price: 5.00 },
-      'result-fuga-esgoto-banheira': { id: 161, title: 'Fuga na Válvula de Ralo ou Sifão', description: 'A ligação por baixo da banheira está com uma pequena rotura.', cause: 'Vibração da banheira ou vedante de borracha que secou.', difficulty: 'avancado', time: 'Varia', priority: 'urgente', solution: 'Inspecione a válvula de esgoto (pode necessitar de abrir o murete se não houver tampa)', isDIY: false, price: 5.00 }
-    },
-    'result-banheira-torneira': {
-      problemId: 24,
-      problemTitle: 'Torneira da Banheira a Pingar',
-      symptom: 'A torneira goteja ininterruptamente mesmo estando fechada.',
-      questions: [
-        { id: 'q1', question: 'Por onde pinga exatamente?', options: [{ id: 'bica', label: 'Pingos caem pelo bico principal ou auscultador do chuveiro' }, { id: 'base', label: 'Baba água pelas junções ou por trás do manípulo' }] },
-        { id: 'q2', question: 'A torneira é de manípulo único (monocomando) ou de dois manípulos independentes?', options: [{ id: 'mono', label: 'Monocomando (1 alavanca)' }, { id: 'bi', label: 'Bicomando (2 roscas quent/fria)' }] }
-      ],
-      paths: {
-        'bica': 'q2',
-        'base': 'q2'
-      },
-      results: {
-        'bica,mono': { id: 220, title: 'Cartucho Cerâmico Danificado', description: 'O mecanismo interior que regula a água quente/fria rasgou.', cause: 'Desgaste pelo uso ou calcário infiltrado.', difficulty: 'medio', time: '30m', priority: 'importante', solution: 'Desmontar manípulo frontal, cortar a água geral e substituir o cartucho cerâmico.', isDIY: true, price: 5.00 },
-        'bica,bi': { id: 221, title: 'Castelo ou Vedante de Borracha (Chupeta)', description: 'As anilhas de borracha prensadas nos veios não fecham hermeticamente.', cause: 'Borrachas ressequidas por anos de aperto.', difficulty: 'simples', time: '30m', priority: 'quando-possivel', solution: 'Desmontar os castelos e colocar couratos e o-rings novos.', isDIY: true, price: 5.00 },
-        'base,mono': { id: 222, title: 'Juntas / O-rings Desgastados', description: 'Porcas desapertadas ou juntas de teflon/borracha a ceder.', cause: 'Movimentos bruscos na torneira ou borrachas gastas.', difficulty: 'medio', time: '30m', priority: 'importante', solution: 'Reapertar os excêntricos da parede ou substituir juntas da misturadora.', isDIY: true, price: 5.00 },
-        'base,bi': { id: 223, title: 'Juntas / O-rings Desgastados', description: 'Porcas desapertadas ou juntas de teflon/borracha a ceder.', cause: 'Movimentos bruscos na torneira ou borrachas gastas.', difficulty: 'medio', time: '30m', priority: 'importante', solution: 'Reapertar os excêntricos da parede ou substituir juntas da misturadora.', isDIY: true, price: 5.00 }
-      }
-    },
-    'result-banheira-cheiro': {
-      problemId: 25,
-      problemTitle: 'Mau Cheiro Vindo da Banheira',
-      symptom: 'Sente um cheiro a esgoto ou "ovos podres" perto da banheira.',
-      questions: [
-        { id: 'q1', question: 'Toma banho nesta banheira regularmente (quase toda a semana) ou ela fica semanas sem uso?', options: [{ id: 'muito', label: 'É usada quase todos os dias' }, { id: 'raro', label: 'É na casa de hóspedes / meses sem usar' }] },
-        { id: 'q2', question: 'Costuma ouvir "glug-glug" (agitar) quando alguém faz descarga da sanita ou noutro ralo próximo?', options: [{ id: 'sim', label: 'Ouço sons de ralo a borbulhar' }, { id: 'nao', label: 'Não tem qualquer som esquisito' }] }
-      ],
-      paths: {
-        'muito': 'q2',
-        'raro': 'q2'
-      },
-      results: {
-        'raro,sim': { id: 230, title: 'Evaporação do Fecho Hídrico (Sifão Seco)', description: 'A água que estava no ralo e impedia os cheiros evaporou/desceu por sucção de outra canalização.', cause: 'Secagem do sifão.', difficulty: 'simples', time: '1m', priority: 'quando-possivel', solution: 'Deite uma bacia de água limpa no ralo para restaurar a água bloqueadora de odor.', isDIY: true, price: 0 },
-        'raro,nao': { id: 231, title: 'Evaporação Natural (Sifão Seco)', description: 'A água da barreira do ralo evaporou de não ser usada.', cause: 'Falta de uso a longo prazo.', difficulty: 'simples', time: '1m', priority: 'quando-possivel', solution: 'Deitar água de 15 em 15 dias. Usar um pouco de óleo alimentar por cima da água atrasa a evaporação se for viajar.', isDIY: true, price: 0 },
-        'muito,sim': { id: 232, title: 'Problema de Ventilação da Coluna', description: 'Sem ventilação na laje, quando há uma descarga forte cria vácuo e chupa a água do ralo da sua banheira para lá.', cause: 'Falta de respiradouros abertos no prédio ou coluna geral muito obstruída.', difficulty: 'avancado', time: 'Variável', priority: 'importante', solution: 'Inspeção à coluna geral de esgotos por condomínio/canalizador especializado.', isDIY: false, price: 0 },
-        'muito,nao': { id: 233, title: 'Limo e Sujidade Focada Bacteriana', description: 'Pode verter mas também acumula gelatina preta (mistura de champôs e sabão velho).', cause: 'Bactérias em decomposição natural abaixo do ralo.', difficulty: 'simples', time: '15m', priority: 'quando-possivel', solution: 'Limpeza térmica (produtos alcalinos ou vinagrete fervente) dentro da câmara do esgoto do ralo.', isDIY: true, price: 5.00 }
-      }
+      'nao,durante': { id: 160, title: 'Silicone Degradado com Salpicos', description: 'A água do chuveiro infiltra-se pelas juntas abertas entre o azulejo e a banheira.', cause: 'Descolamento do silicone por envelhecimento, permitindo passagem de água com salpicos.', difficulty: 'medio', time: '2h', priority: 'importante', solution: 'Remova todo o silicone antigo com raspador. Desinfete com lixívia, seque bem (24h) e aplique novo silicone sanitário anti-fungos em cordão contínuo.', isDIY: true, price: 5.00 },
+      'nao,esvaziar': { id: 161, title: 'Silicone + Junta do Sifão Comprometida', description: 'A água encontra caminho tanto pelo silicone como pela ligação do esgoto por baixo.', cause: 'Duplo problema: silicone degradado e anilha do sifão gasta.', difficulty: 'medio', time: '2-3h', priority: 'urgente', solution: 'Refaça o silicone e inspecione a ligação do sifão por baixo (se acessível). Aperte as porcas do sifão e substitua anilhas de borracha.', isDIY: true, price: 5.00 },
+      'sim,durante': { id: 162, title: 'Fuga na Tubagem Interna (Parede)', description: 'Com silicone em bom estado, a água está a escapar pela tubagem embutida na parede.', cause: 'Rutura ou junta solta nos canos frio/quente dentro da parede.', difficulty: 'avancado', time: 'Dias', priority: 'urgente', solution: 'Fechar água imediatamente. Chamar canalizador profissional com detetor de fugas. Pode ser necessário partir azulejo.', isDIY: false, price: 5.00 },
+      'sim,esvaziar': { id: 163, title: 'Fuga na Válvula de Ralo ou Sifão', description: 'A ligação do esgoto por baixo da banheira tem uma fuga que só se manifesta com o peso da água a drenar.', cause: 'Vibração da banheira ou vedante de borracha que secou na válvula de esgoto.', difficulty: 'avancado', time: 'Variável', priority: 'urgente', solution: 'Inspecione a válvula de esgoto por baixo (pode necessitar de abrir o murete lateral). Substitua anilhas e aperte ligações.', isDIY: false, price: 5.00 }
     }
   },
 
@@ -702,20 +780,30 @@ export const diagnosisTrees: Record<string, DiagnosisTree> = {
     questions: [
       {
         id: 'q1',
-        question: 'Usa a banheira com frequência ou serve apenas para banhos rápidos?',
+        question: 'Usa a banheira com frequência ou está quase sempre parada?',
         options: [
-          { id: 'banhos', label: 'Apenas banhos e duches' },
-          { id: 'pouco', label: 'Está quase sempre parada' }
+          { id: 'banhos', label: 'Uso regular (banhos e duches)' },
+          { id: 'pouco', label: 'Está quase sempre parada (semanas sem uso)' }
+        ]
+      },
+      {
+        id: 'q2',
+        question: 'A água escoa rapidamente ou nota lentidão e sons de gorgolejar?',
+        options: [
+          { id: 'rapido', label: 'Escoa normalmente sem sons estranhos' },
+          { id: 'lento', label: 'Escoa devagar ou faz sons de borbulhar' }
         ]
       }
     ],
     paths: {
-      'banhos': 'result-cabelos-limpeza',
-      'pouco': 'result-caixa-sifonica-seca'
+      'banhos': 'q2',
+      'pouco': 'q2'
     },
     results: {
-      'result-cabelos-limpeza': { id: 170, title: 'Resíduos Fermentados no Ralo', description: 'Bactérias acumulam-se nos cabelos presos na saída.', cause: 'Resíduos de champô e cabelos retidos na válvula.', difficulty: 'simples', time: '15 min', priority: 'quando-possivel', solution: 'Verta água a ferver com detergente e remova cabelos visíveis.', isDIY: true, price: 5.00 },
-      'result-caixa-sifonica-seca': { id: 171, title: 'Evaporação por Desuso', description: 'Falta de selo hídrico na ligação geral.', cause: 'Desuso prolongado.', difficulty: 'simples', time: '1 min', priority: 'quando-possivel', solution: 'Deixe correr água por algum tempo em todos os sanitários.', isDIY: true, price: 5.00 }
+      'banhos,rapido': { id: 170, title: 'Biofilme no Ralo (Resíduos Fermentados)', description: 'Bactérias decompõem restos de champô, sabão e cabelos acumulados nas paredes internas do cano.', cause: 'Biofilme orgânico em decomposição abaixo da grelha do ralo.', difficulty: 'simples', time: '15 min', priority: 'quando-possivel', solution: 'Remova cabelos visíveis do ralo. Aplique 1/2 copo de bicarbonato + 1 copo de vinagre branco. Tape 30 min e despeje água a ferver.', isDIY: true, price: 5.00 },
+      'banhos,lento': { id: 171, title: 'Obstrução Parcial com Decomposição', description: 'Há um entupimento parcial que retém resíduos orgânicos em decomposição e causa o cheiro.', cause: 'Cabelos e sabão acumulados criaram um bloqueio parcial que fermenta.', difficulty: 'medio', time: '30 min', priority: 'importante', solution: 'Use uma ferramenta tipo "Zip-It" para pescar cabelos profundos. Depois aplique tratamento com bicarbonato e vinagre fervente.', isDIY: true, price: 5.00 },
+      'pouco,rapido': { id: 172, title: 'Sifão Seco por Desuso (Evaporação)', description: 'A água do sifão evaporou por falta de uso, abrindo passagem direta aos gases do esgoto.', cause: 'Desuso prolongado causou evaporação do selo hídrico.', difficulty: 'simples', time: '1 min', priority: 'quando-possivel', solution: 'Deixe correr água 30 segundos para repor o selo hídrico. Dica: deite óleo alimentar no ralo antes de viagens longas.', isDIY: true, price: 5.00 },
+      'pouco,lento': { id: 173, title: 'Sifão Seco + Obstrução por Estagnação', description: 'Sem uso, a água evaporou e resíduos antigos secaram dentro do cano criando bloqueio e cheiro.', cause: 'Combinação de sifão seco e detritos ressecados no cano.', difficulty: 'medio', time: '20 min', priority: 'importante', solution: 'Verta água quente abundante para repor selo e amolecer resíduos. Aplique bicarbonato + vinagre. Se persistir, desmonte o sifão para limpeza manual.', isDIY: true, price: 5.00 }
     }
   },
 
@@ -726,20 +814,30 @@ export const diagnosisTrees: Record<string, DiagnosisTree> = {
     questions: [
       {
         id: 'q1',
-        question: 'A pinga é pela saída da banheira ou pelo chuveiro de mão?',
+        question: 'A água pinga pela saída principal da banheira ou pelo chuveiro de mão?',
         options: [
-          { id: 'banheira', label: 'Pela saída principal' },
-          { id: 'chuveiro', label: 'Pelo chuveiro pendurado' }
+          { id: 'banheira', label: 'Pelo bico de enchimento da banheira' },
+          { id: 'chuveiro', label: 'Pelo chuveiro de mão / auscultador' }
+        ]
+      },
+      {
+        id: 'q2',
+        question: 'Nota depósitos de calcário branco ou crostas duras à volta da torneira?',
+        options: [
+          { id: 'sim-calcario', label: 'Sim, há crostas brancas visíveis' },
+          { id: 'nao-calcario', label: 'Não, está limpa' }
         ]
       }
     ],
     paths: {
-      'banheira': 'result-mecanismo-manete',
-      'chuveiro': 'result-inversor-danificado'
+      'banheira': 'q2',
+      'chuveiro': 'q2'
     },
     results: {
-      'result-mecanismo-manete': { id: 180, title: 'Mecanismo Ceramic Interno Gasto', description: 'O controlo de temperatura/fluxo não veda a 100%.', cause: 'Uso constante ao longo dos anos.', difficulty: 'medio', time: '40 min', priority: 'importante', solution: 'Substitua o cartucho misturador de 35mm ou 40mm conforme a marca.', isDIY: true, price: 5.00 },
-      'result-inversor-danificado': { id: 181, title: 'Vedante do Inversor Estragado', description: 'O botão que vira para o chuveiro não fecha bem a outra saída.', cause: 'Calcário acumulado no vedante do inversor.', difficulty: 'medio', time: '30 min', priority: 'importante', solution: 'Desmonte o inversor (o botão de puxar) e descalcifique com vinagre.', isDIY: true, price: 5.00 }
+      'banheira,sim-calcario': { id: 180, title: 'Cartucho/Anilha Bloqueada por Calcário', description: 'O calcário impediu o fecho total do mecanismo interno da torneira.', cause: 'Depósitos minerais acumulados no cartucho ou anilha de vedação.', difficulty: 'medio', time: '40 min', priority: 'importante', solution: 'Feche a água. Desmonte o manípulo e extraia o cartucho/anilha. Mergulhe em vinagre branco 2h. Se não resolver, substitua a peça.', isDIY: true, price: 5.00 },
+      'banheira,nao-calcario': { id: 181, title: 'Mecanismo Cerâmico Interno Gasto', description: 'O cartucho ou a anilha de vedação desgastaram-se com o uso e não vedam a 100%.', cause: 'Desgaste natural do mecanismo interno após anos de utilização.', difficulty: 'medio', time: '40 min', priority: 'importante', solution: 'Feche a água. Substitua o cartucho misturador (35mm ou 40mm conforme a marca) ou a anilha de borracha.', isDIY: true, price: 5.00 },
+      'chuveiro,sim-calcario': { id: 182, title: 'Inversor com Calcário Incrustado', description: 'O botão inversor (que alterna entre bico e chuveiro) está bloqueado por calcário e não fecha a passagem.', cause: 'Calcário acumulado no vedante e rosca do inversor.', difficulty: 'medio', time: '30 min', priority: 'importante', solution: 'Desmonte o inversor (botão de puxar). Mergulhe em vinagre para dissolver o calcário. Substitua os O-rings se necessário.', isDIY: true, price: 5.00 },
+      'chuveiro,nao-calcario': { id: 183, title: 'Vedante do Inversor Gasto', description: 'A borracha do inversor desgastou-se e a água escapa pelo chuveiro mesmo com o botão em baixo.', cause: 'Desgaste natural do vedante do inversor.', difficulty: 'medio', time: '30 min', priority: 'importante', solution: 'Feche a água. Desmonte o inversor e substitua a borracha/O-ring de vedação. São peças baratas e universais.', isDIY: true, price: 5.00 }
     }
   },
 

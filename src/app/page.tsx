@@ -144,7 +144,7 @@ export default function Home() {
       id: 'chuveiro', 
       name: 'Chuveiro', 
       icon: <div className="w-24 h-24 relative mix-blend-multiply"><Image src="/images/categories/chuveiro.png" alt="Chuveiro" fill className="object-contain drop-shadow-md" /></div>, 
-      problemCount: 3, 
+      problemCount: 4, 
       color: 'from-teal-100 to-emerald-50', 
       beamColor: '#10b981' 
     },
@@ -192,6 +192,7 @@ export default function Home() {
       { key: 'chuveiro-entupido', title: 'Água acumula', symptom: 'Não escoa bem' },
       { key: 'chuveiro-mau-cheiro', title: 'Mau cheiro no ralo', symptom: 'Odor desagradável' },
       { key: 'vazamento-chuveiro', title: 'Vazamento no chuveiro', symptom: 'Água na parede/teto' },
+      { key: 'chuveiro-torneira', title: 'Torneira a pingar', symptom: 'Torneira não fecha bem' },
     ],
     'banheira': [
       { key: 'banheira-entupida', title: 'Banheira entupida', symptom: 'Escoa muito devagar' },
@@ -261,7 +262,7 @@ export default function Home() {
     if (!tree) {
       setDiagnosisResult({
         id: 0, title: 'Problema Identificado', description: 'Identificámos o seu problema.',
-        cause: 'Necessita de análise mais detalhada', difficulty: 'medio', time: 'Variável',
+        cause: 'Acumulação de residos', difficulty: 'medio', time: 'Variável',
         priority: 'importante', solution: 'Consulte um profissional', isDIY: false, price: 5.00
       })
       setQuizState('result')
@@ -284,7 +285,7 @@ export default function Home() {
       else {
         setDiagnosisResult({
           id: 0, title: 'Problema Identificado', description: 'Identificámos o seu problema.',
-          cause: 'Necessita de análise mais detalhada', difficulty: 'medio', time: 'Variável',
+          cause: 'Acumulação de residos', difficulty: 'medio', time: 'Variável',
           priority: 'importante', solution: 'Consulte um profissional', isDIY: false, price: 5.00
         })
         setQuizState('result')
@@ -298,9 +299,16 @@ export default function Home() {
     else if (quizState === 'category') { setQuizState('area'); setSelectedArea(null) }
     else if (quizState === 'problem') { setQuizState('category'); setSelectedCategory(null) }
     else if (quizState === 'diagnosis') {
-      if (currentQuestionIndex > 0) { setCurrentQuestionIndex(currentQuestionIndex - 1); setAnswers(answers.slice(0, -1)) }
+      if (currentQuestionIndex > 0) { 
+        setCurrentQuestionIndex(currentQuestionIndex - 1); 
+        setAnswers(answers.slice(0, -1)) 
+      }
       else { setQuizState('problem'); setSelectedProblemKey(null); setAnswers([]) }
-    } else if (quizState === 'result') { setQuizState('problem'); setSelectedProblemKey(null); setAnswers([]); setDiagnosisResult(null) }
+    } else if (quizState === 'result') { 
+      setQuizState('diagnosis'); 
+      setAnswers(answers.slice(0, -1)); 
+      setDiagnosisResult(null) 
+    }
   }
 
 
@@ -448,8 +456,9 @@ export default function Home() {
                 className="flex-1 py-8"
               >
                 <div className="flex items-center gap-4 mb-10">
-                   <Button variant="ghost" onClick={goBack} className="rounded-2xl hover:bg-white p-2">
-                     <ArrowLeft className="w-6 h-6" />
+                   <Button variant="ghost" onClick={goBack} className="rounded-2xl hover:bg-white flex items-center gap-2 px-4 py-2 text-slate-600 font-bold">
+                     <ArrowLeft className="w-5 h-5" />
+                     Voltar
                    </Button>
                    <div>
                      <Badge className="bg-cyan-100 text-cyan-600 border-cyan-200 mb-1 font-bold">Passo 2 de 4</Badge>
@@ -494,8 +503,9 @@ export default function Home() {
                 className="flex-1 py-8"
               >
                 <div className="flex items-center gap-4 mb-10">
-                   <Button variant="ghost" onClick={goBack} className="rounded-2xl hover:bg-white p-2">
-                     <ArrowLeft className="w-6 h-6" />
+                   <Button variant="ghost" onClick={goBack} className="rounded-2xl hover:bg-white flex items-center gap-2 px-4 py-2 text-slate-600 font-bold">
+                     <ArrowLeft className="w-5 h-5" />
+                     Voltar
                    </Button>
                    <div>
                      <Badge className="bg-indigo-100 text-indigo-600 border-indigo-200 mb-1 font-bold">Passo 3 de 4</Badge>
@@ -538,8 +548,9 @@ export default function Home() {
                 className="flex-1 py-8"
               >
                 <div className="flex items-center gap-4 mb-10">
-                   <Button variant="ghost" onClick={goBack} className="rounded-2xl hover:bg-white p-2">
-                     <ArrowLeft className="w-6 h-6" />
+                   <Button variant="ghost" onClick={goBack} className="rounded-2xl hover:bg-white flex items-center gap-2 px-4 py-2 text-slate-600 font-bold">
+                     <ArrowLeft className="w-5 h-5" />
+                     Voltar
                    </Button>
                    <div>
                      <Badge className="bg-orange-100 text-orange-600 border-orange-200 mb-1 font-bold">Passo Final</Badge>
@@ -624,7 +635,20 @@ export default function Home() {
               >
                 {diagnosisResult ? (
                   <div className="max-w-4xl mx-auto space-y-8">
-                     <div className="bg-gradient-to-br from-white to-blue-50/50 backdrop-blur-xl border-4 border-white p-8 rounded-[3rem] shadow-2xl relative overflow-hidden group">
+                     <div className="bg-gradient-to-br from-white to-blue-50/50 backdrop-blur-xl border-4 border-white p-8 pt-16 rounded-[3rem] shadow-2xl relative overflow-hidden group">
+                        
+                        <Button 
+                          variant="ghost" 
+                          onClick={goBack} 
+                          className="absolute top-6 left-8 rounded-xl hover:bg-white flex items-center gap-2 text-slate-600 font-bold z-20"
+                        >
+                          <ArrowLeft className="w-5 h-5" />
+                          Voltar
+                        </Button>
+
+                        <div className="absolute top-0 left-0 w-full h-1.5 bg-blue-500/20 z-10">
+                           <div className="h-full bg-gradient-to-r from-blue-600 to-cyan-500 w-full" />
+                        </div>
                         
                         <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:rotate-12 transition-transform duration-700">
                            <CheckCircle2 className="w-32 h-32 text-emerald-500" />
